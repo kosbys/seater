@@ -1,10 +1,10 @@
 import "./App.css";
-import { Grid } from "./components/Grid";
+import { WeekGrid } from "./components/WeekGrid";
 
 function App() {
   return (
     <div>
-      <Grid />
+      <WeekGrid />
     </div>
   );
 }
