@@ -12,7 +12,7 @@ function getSundayDate(today: Date, offset: number) {
 	return new Date(today.setDate(today.getDate() - offset));
 }
 
-function getWeekDates(sunday: Date) {
+function getWeekDates(sunday: Date): Map<number, Date> {
 	const weekDates = new Map();
 
 	const currentDay = new Date(sunday);
