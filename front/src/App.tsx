@@ -1,5 +1,5 @@
 import "./App.css";
-import { WeekGrid } from "./components/WeekGrid";
+import { WeekGrid } from "./components/WeekGrid/WeekGrid";
 
 function App() {
   return (

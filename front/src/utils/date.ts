@@ -1,4 +1,4 @@
-type FormattedDate = {
+export type FormattedDate = {
 	day: string;
 	date: string;
 };
