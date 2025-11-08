@@ -1,0 +1,60 @@
+{
+  "sections": {
+    "A": [
+      {
+        "computer": true,
+        "monitor": true,
+        "shifts": [
+          {
+            "timeRange": "09:00-15:00",
+            "user": "bob"
+          }
+        ]
+      },
+      {
+        "computer": false,
+        "monitor": true,
+        "shifts": []
+      },
+      {
+        "computer": true,
+        "monitor": false,
+        "shifts": []
+      }
+    ],
+    "B": [
+      {
+        "computer": true,
+        "monitor": true,
+        "shifts": []
+      },
+      {
+        "computer": false,
+        "monitor": false,
+        "shifts": []
+      }
+    ],
+    "C": [
+      {
+        "computer": true,
+        "monitor": true,
+        "shifts": []
+      },
+      {
+        "computer": true,
+        "monitor": true,
+        "shifts": []
+      },
+      {
+        "computer": false,
+        "monitor": true,
+        "shifts": []
+      },
+      {
+        "computer": false,
+        "monitor": false,
+        "shifts": []
+      }
+    ]
+  }
+}

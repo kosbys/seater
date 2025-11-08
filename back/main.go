@@ -1,24 +1,23 @@
 package main
 
 import (
-	"net/http"
-
-	"github.com/gin-gonic/gin"
+	"back/database"
+	"back/model"
+	"back/routes"
+	"log"
 )
 
 func main() {
-	// Create a Gin router with default middleware (logger and recovery)
-	r := gin.Default()
+	database.ConnectDB()
 
-	// Define a simple GET endpoint
-	r.GET("/ping", func(c *gin.Context) {
-		// Return JSON response
-		c.JSON(http.StatusOK, gin.H{
-			"message": "pong",
-		})
-	})
+	r := routes.SetupRouter()
 
-	// Start server on port 8080 (default)
-	// Server will listen on 0.0.0.0:8080 (localhost:8080 on Windows)
+	database.DB.AutoMigrate(&model.User{})
+
+	if err := database.DB.AutoMigrate(&model.User{}); err != nil {
+		log.Fatal("Failed to migrate database:", err)
+	}
+
 	r.Run()
+
 }
