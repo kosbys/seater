@@ -19,7 +19,6 @@ func init() {
 		log.Println("No .env file loaded, expect explosions")
 	}
 
-	DatabaseURL = os.Getenv("DATABASE_URL")
 	JWTSecret = []byte(os.Getenv("JWT_SECRET"))
 
 }
