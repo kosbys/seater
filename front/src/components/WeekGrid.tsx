@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { getSundayDate, getWeekDates } from "../utils/date";
+import { Button } from "./ui/button";
 
 const WEEK_MILISECONDS = 86400000 * 7;
 
@@ -31,12 +32,12 @@ function WeekGrid() {
 
   return (
     <>
-      <button type="button" onClick={previousWeek}>
+      <Button type="button" onClick={previousWeek}>
         Previous
-      </button>
-      <button type="button" onClick={nextWeek}>
+      </Button>
+      <Button type="button" onClick={nextWeek}>
         Next
-      </button>
+      </Button>
       <div className="grid grid-cols-5 gap-4 text-center">
         {[...weekDates.values()].map((day) => (
           <div key={crypto.randomUUID()}>{day}</div>
