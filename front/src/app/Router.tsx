@@ -21,7 +21,7 @@ function Router() {
       </Route>
 
       <Route element={<AdminRoute />}>
-        <Route path="/" element={<AdminPage />} />
+        <Route path="/admin" element={<AdminPage />} />
       </Route>
 
       <Route path="*" element={<NotFound />} />
