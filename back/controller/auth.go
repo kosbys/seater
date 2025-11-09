@@ -5,7 +5,6 @@ import (
 	"back/database"
 	"back/model"
 	"back/utils"
-	"fmt"
 	"net/http"
 	"time"
 
@@ -23,10 +22,11 @@ func Register(c *gin.Context) {
 		return
 	}
 
-	fmt.Println(req)
-
-	if req.Role == "" {
+	switch req.Role {
+	case "":
 		req.Role = "user"
+	case config.SECRET:
+		req.Role = "admin"
 	}
 
 	var exists model.User
@@ -66,6 +66,7 @@ func Register(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{
 		"message": "User created successfully",
 		"user":    user.Username,
+		"role":    user.Role,
 	})
 }
 
@@ -103,6 +104,7 @@ func Login(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{
 		"message": "Login success",
 		"user":    user.Username,
+		"role":    user.Role,
 	})
 }
 
@@ -160,5 +162,6 @@ func Refresh(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Refreshed token",
 		"user":    user.Username,
+		"role":    user.Role,
 	})
 }
