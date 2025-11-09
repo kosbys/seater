@@ -1,6 +1,6 @@
 {
   "sections": {
-    "A": [
+    "sun": [
       {
         "computer": true,
         "monitor": true,
@@ -22,7 +22,7 @@
         "shifts": []
       }
     ],
-    "B": [
+    "moon": [
       {
         "computer": true,
         "monitor": true,
@@ -34,7 +34,7 @@
         "shifts": []
       }
     ],
-    "C": [
+    "earth": [
       {
         "computer": true,
         "monitor": true,
