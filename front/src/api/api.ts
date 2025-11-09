@@ -42,7 +42,7 @@ export async function requestRefresh() {
 
 export async function requestLogout() {
 	const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/logout`, {
-		method: "GET",
+		method: "POST",
 		credentials: "include",
 	});
 	if (!response.ok) {

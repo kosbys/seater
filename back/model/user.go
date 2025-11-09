@@ -7,6 +7,11 @@ type User struct {
 	Role     string
 }
 
+type UserResponse struct {
+	Username string `json:"username"`
+	Role     string `json:"role"`
+}
+
 type RegisterRequest struct {
 	Username string `json:"username" binding:"required"`
 	Password string `json:"password" binding:"required"`

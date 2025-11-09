@@ -7,8 +7,13 @@ import {
 	requestRegister,
 } from "@/api/api";
 
+type User = {
+	username: string;
+	role: "admin" | "user";
+};
+
 interface AuthState {
-	user: string | null;
+	user: User | null;
 	loading: boolean;
 	login: (username: string, password: string) => Promise<void>;
 	register: (username: string, password: string) => Promise<void>;

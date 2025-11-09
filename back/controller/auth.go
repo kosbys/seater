@@ -52,6 +52,11 @@ func Register(c *gin.Context) {
 
 	result := database.DB.Create(&user)
 
+	userResponse := model.UserResponse{
+		Username: user.Username,
+		Role:     user.Role,
+	}
+
 	if result.Error != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to create user"})
 		return
@@ -65,8 +70,7 @@ func Register(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, gin.H{
 		"message": "User created successfully",
-		"user":    user.Username,
-		"role":    user.Role,
+		"user":    userResponse,
 	})
 }
 
@@ -95,6 +99,11 @@ func Login(c *gin.Context) {
 		return
 	}
 
+	userResponse := model.UserResponse{
+		Username: user.Username,
+		Role:     user.Role,
+	}
+
 	accessToken, _ := utils.GenerateAccessToken(user.ID)
 	refreshToken, _ := utils.GenerateRefreshToken(user.ID)
 
@@ -103,13 +112,26 @@ func Login(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, gin.H{
 		"message": "Login success",
-		"user":    user.Username,
-		"role":    user.Role,
+		"user":    userResponse,
 	})
 }
 
 func Logout(c *gin.Context) {
+	for _, cookie := range c.Request.Cookies() {
+		c.SetCookie(
+			cookie.Name,
+			"",
+			-1,
+			"/",
+			"",
+			false,
+			true,
+		)
+	}
 
+	c.JSON(200, gin.H{
+		"message": "Logged out",
+	})
 }
 
 func Refresh(c *gin.Context) {
@@ -149,6 +171,11 @@ func Refresh(c *gin.Context) {
 
 	err = database.DB.Where("id = ?", userID).Take(&user).Error
 
+	userResponse := model.UserResponse{
+		Username: user.Username,
+		Role:     user.Role,
+	}
+
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID"})
 		return
@@ -161,7 +188,6 @@ func Refresh(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Refreshed token",
-		"user":    user.Username,
-		"role":    user.Role,
+		"user":    userResponse,
 	})
 }

@@ -1,8 +1,10 @@
 import { Route, Routes } from "react-router";
+import { AdminPage } from "./pages/Admin";
 import { Homepage } from "./pages/Homepage";
 import { Login } from "./pages/Login";
 import { NotFound } from "./pages/NotFound";
 import { Register } from "./pages/Register";
+import { AdminRoute } from "./routes/AdminRoute";
 import { ProtectedRoute } from "./routes/ProtectedRoute";
 import { PublicRoute } from "./routes/PublicRoute";
 
@@ -16,6 +18,10 @@ function Router() {
 
       <Route element={<ProtectedRoute />}>
         <Route path="/" element={<Homepage />} />
+      </Route>
+
+      <Route element={<AdminRoute />}>
+        <Route path="/" element={<AdminPage />} />
       </Route>
 
       <Route path="*" element={<NotFound />} />
