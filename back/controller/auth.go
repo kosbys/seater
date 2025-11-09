@@ -143,6 +143,15 @@ func Refresh(c *gin.Context) {
 
 	userID := uint(claims["sub"].(float64))
 
+	var user model.User
+
+	err = database.DB.Where("id = ?", userID).Take(&user).Error
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID"})
+		return
+	}
+
 	accessToken, _ := utils.GenerateAccessToken(userID)
 	utils.SetTokenCookie(c, accessToken, "access_token")
 	newRefreshToken, _ := utils.GenerateRefreshToken(uint(userID))
@@ -150,5 +159,6 @@ func Refresh(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Refreshed token",
+		"user":    user.Username,
 	})
 }

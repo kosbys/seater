@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router";
-import { WeekGrid } from "@/components/weekgrid/WeekGrid";
+import { Homepage } from "./pages/Homepage";
 import { Login } from "./pages/Login";
 import { NotFound } from "./pages/NotFound";
 import { Register } from "./pages/Register";
@@ -15,7 +15,7 @@ function Router() {
       </Route>
 
       <Route element={<ProtectedRoute />}>
-        <Route path="/" element={<WeekGrid />} />
+        <Route path="/" element={<Homepage />} />
       </Route>
 
       <Route path="*" element={<NotFound />} />

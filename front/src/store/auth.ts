@@ -7,12 +7,8 @@ import {
 	requestRegister,
 } from "@/api/api";
 
-type User = {
-	username: string;
-};
-
 interface AuthState {
-	user: User | null;
+	user: string | null;
 	loading: boolean;
 	login: (username: string, password: string) => Promise<void>;
 	register: (username: string, password: string) => Promise<void>;
@@ -71,6 +67,7 @@ const useAuthStore = create<AuthState>()(
 				try {
 					const res = await requestRefresh();
 					console.log("Successful refresh", res);
+					set({ user: res.user });
 				} catch (error) {
 					console.error("Refresh error", error);
 					set({ user: null });
