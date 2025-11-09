@@ -1,20 +1,18 @@
-"use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import { Link, Navigate, useNavigate } from "react-router";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useAuthStore } from "@/store/auth";
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -26,6 +24,8 @@ const formSchema = z.object({
 });
 
 function Login() {
+  const login = useAuthStore((s) => s.login);
+  const navigate = useNavigate();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -34,8 +34,15 @@ function Login() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const { username, password } = values;
+    try {
+      await login(username, password);
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+      alert(error);
+    }
   }
 
   return (

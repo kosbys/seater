@@ -5,7 +5,9 @@ import (
 	"back/database"
 	"back/model"
 	"back/utils"
+	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
@@ -20,6 +22,8 @@ func Register(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input", "dbg": err})
 		return
 	}
+
+	fmt.Println(req)
 
 	if req.Role == "" {
 		req.Role = "user"
@@ -60,8 +64,8 @@ func Register(c *gin.Context) {
 	utils.SetTokenCookie(c, refreshToken, "refresh_token")
 
 	c.JSON(http.StatusCreated, gin.H{
-		"message":  "User created successfully",
-		"username": user.Username,
+		"message": "User created successfully",
+		"user":    user.Username,
 	})
 }
 
@@ -97,29 +101,29 @@ func Login(c *gin.Context) {
 	utils.SetTokenCookie(c, refreshToken, "refresh_token")
 
 	c.JSON(http.StatusCreated, gin.H{
-		"message":  "Login success",
-		"username": user.Username,
+		"message": "Login success",
+		"user":    user.Username,
 	})
 }
 
+func Logout(c *gin.Context) {
+
+}
+
 func Refresh(c *gin.Context) {
-	var req struct {
-		RefreshToken string `json:"refresh_token"`
-	}
+	refreshToken, err := c.Cookie("refresh_token")
 
-	err := c.ShouldBindJSON(&req)
-
-	if err != nil || req.RefreshToken == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing refresh token"})
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Missing refresh token"})
 		return
 	}
 
-	token, err := jwt.Parse(req.RefreshToken, func(token *jwt.Token) (interface{}, error) {
+	token, err := jwt.Parse(refreshToken, func(token *jwt.Token) (interface{}, error) {
 		return []byte(config.JWTSecret), nil
 	})
 
 	if err != nil || !token.Valid {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid token"})
 		return
 	}
 
@@ -130,10 +134,19 @@ func Refresh(c *gin.Context) {
 		return
 	}
 
+	exp := claims["exp"].(float64)
+
+	if time.Unix(int64(exp), 0).Before(time.Now()) {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Expired refresh token"})
+		return
+	}
+
 	userID := uint(claims["sub"].(float64))
 
 	accessToken, _ := utils.GenerateAccessToken(userID)
 	utils.SetTokenCookie(c, accessToken, "access_token")
+	newRefreshToken, _ := utils.GenerateRefreshToken(uint(userID))
+	utils.SetTokenCookie(c, newRefreshToken, "refresh_token")
 
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Refreshed token",
