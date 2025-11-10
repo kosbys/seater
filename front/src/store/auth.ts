@@ -5,7 +5,7 @@ import {
 	requestLogout,
 	requestRefresh,
 	requestRegister,
-} from "@/api/api";
+} from "@/api/auth";
 
 type User = {
 	username: string;
