@@ -11,5 +11,5 @@ type SectionCreateRequest struct {
 }
 
 type SectionDeleteRequest struct {
-	ID uint `json:"section_id", binding:"required"`
+	ID uint `json:"section_id" binding:"required"`
 }
