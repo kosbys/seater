@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router";
-import { AdminPage } from "./pages/Admin";
+import { AdminPage } from "./pages/AdminPage";
 import { Homepage } from "./pages/Homepage";
 import { Login } from "./pages/Login";
 import { NotFound } from "./pages/NotFound";

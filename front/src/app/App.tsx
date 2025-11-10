@@ -1,7 +1,10 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { BrowserRouter } from "react-router";
 import { useAuthStore } from "@/store/auth";
 import { Router } from "./Router";
+
+const queryClient = new QueryClient();
 
 function App() {
   const refresh = useAuthStore((s) => s.refresh);
@@ -11,9 +14,11 @@ function App() {
   }, [refresh]);
 
   return (
-    <BrowserRouter>
-      <Router />
-    </BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <Router />
+      </BrowserRouter>
+    </QueryClientProvider>
   );
 }
 
