@@ -1,11 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-
-const useSectionsQuery = () => {
-  useQuery({
-    queryKey: ["sections"],
-    queryFn: () => {},
-  });
-};
+import { getSections } from "@/api/section";
 
 const useCreateSectionMutation = () => {
   const queryClient = useQueryClient();
@@ -22,3 +16,5 @@ const useDeleteSectionMutation = () => {
     onSuccess: () => queryClient.invalidateQueries(["sections"]),
   });
 };
+
+export { useCreateSectionMutation, useDeleteSectionMutation };

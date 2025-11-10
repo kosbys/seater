@@ -8,6 +8,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func GetSections(c *gin.Context) {
+	var sections []model.Section
+
+	err := database.DB.Preload("Stations.Shifts.User").Find(&sections).Error
+
+	if err != nil {
+		c.JSON(500, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(200, sections)
+}
+
 func CreateSection(c *gin.Context) {
 	var req model.SectionCreateRequest
 
