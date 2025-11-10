@@ -42,5 +42,12 @@ func SetupRouter() *gin.Engine {
 		})
 	}
 
+	admin := r.Group("/admin")
+	admin.Use(middleware.AuthMiddleware())
+	admin.Use(middleware.AdminMiddleware())
+	{
+		admin.POST("/section/", controller.CreateSection)
+	}
+
 	return r
 }
