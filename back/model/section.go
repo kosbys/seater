@@ -7,9 +7,5 @@ type Section struct {
 }
 
 type SectionCreateRequest struct {
-	Name string `json:"section_name" binding:"required"`
-}
-
-type SectionDeleteRequest struct {
-	ID uint `json:"section_id" binding:"required"`
+	Name string `json:"name" binding:"required"`
 }

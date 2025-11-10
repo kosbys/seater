@@ -10,7 +10,7 @@ import (
 func main() {
 	database.ConnectDB()
 
-	database.DB.AutoMigrate(&model.User{}, &model.Section{})
+	database.DB.AutoMigrate(&model.User{}, &model.Section{}, &model.Station{}, &model.Shift{})
 
 	r := routes.SetupRouter()
 

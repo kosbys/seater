@@ -4,6 +4,7 @@ import (
 	"back/database"
 	"back/model"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -18,9 +19,32 @@ func AdminMiddleware() gin.HandlerFunc {
 			return
 		}
 
+		var userIDUint uint
+
+		switch id := userID.(type) {
+		case float64:
+			userIDUint = uint(id)
+		case int:
+			userIDUint = uint(id)
+		case uint:
+			userIDUint = id
+		case string:
+			parsedID, err := strconv.ParseUint(id, 10, 64)
+			if err != nil {
+				c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid user ID"})
+				c.Abort()
+				return
+			}
+			userIDUint = uint(parsedID)
+		default:
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid user ID"})
+			c.Abort()
+			return
+		}
+
 		var user model.User
 
-		err := database.DB.First(&user, "id = ?", userID.(string)).Error
+		err := database.DB.First(&user, "id = ?", userIDUint).Error
 
 		if err != nil {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "No user found"})

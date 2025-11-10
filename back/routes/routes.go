@@ -3,7 +3,6 @@ package routes
 import (
 	"back/controller"
 	"back/middleware"
-	"net/http"
 	"time"
 
 	"github.com/gin-contrib/cors"
@@ -35,18 +34,17 @@ func SetupRouter() *gin.Engine {
 	protected := r.Group("/api")
 	protected.Use(middleware.AuthMiddleware())
 	{
-		protected.GET("/ping", func(c *gin.Context) {
-			c.JSON(http.StatusOK, gin.H{
-				"message": "pong",
-			})
-		})
+		protected.GET("sections", controller.GetSections)
 	}
 
 	admin := r.Group("/admin")
 	admin.Use(middleware.AuthMiddleware())
 	admin.Use(middleware.AdminMiddleware())
 	{
-		admin.POST("/section/", controller.CreateSection)
+		admin.POST("/section", controller.CreateSection)
+		admin.DELETE("/section/:id", controller.DeleteSection)
+		admin.POST("/station", controller.CreateStation)
+		admin.DELETE("/station/:id", controller.DeleteStation)
 	}
 
 	return r

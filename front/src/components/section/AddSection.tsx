@@ -1,6 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import z from "zod";
+import { createSection } from "@/api/section";
 import { Button } from "../ui/button";
 import {
   Form,
@@ -19,6 +21,8 @@ const formSchema = z.object({
 });
 
 function AddSection() {
+  const queryClient = useQueryClient();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -26,8 +30,18 @@ function AddSection() {
     },
   });
 
+  const addSectionMutation = useMutation({
+    mutationFn: ({ name }: { name: string }) => createSection(name),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["sections"] });
+      form.reset();
+    },
+  });
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
+
+    addSectionMutation.mutate({ name: values.name });
   }
 
   return (

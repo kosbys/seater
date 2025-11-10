@@ -58,16 +58,9 @@ func CreateSection(c *gin.Context) {
 }
 
 func DeleteSection(c *gin.Context) {
-	var req model.SectionDeleteRequest
+	id := c.Param("id")
 
-	err := c.ShouldBindJSON(&req)
-
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
-		return
-	}
-
-	result := database.DB.Delete(&model.Section{}, req.ID)
+	result := database.DB.Delete(&model.Section{}, id)
 
 	if result.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Section not found"})

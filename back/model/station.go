@@ -8,3 +8,9 @@ type Station struct {
 	Shifts    []Shift `gorm:"foreignKey:StationID"`
 	Section   Section `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
+
+type StationCreateRequest struct {
+	SectionID uint
+	Computer  bool
+	Monitor   bool
+}

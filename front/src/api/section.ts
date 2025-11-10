@@ -1,8 +1,11 @@
 export async function getSections() {
-	const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/sections`, {
-		method: "GET",
-		credentials: "include",
-	});
+	const response = await fetch(
+		`${import.meta.env.VITE_SERVER_URL}/api/sections`,
+		{
+			method: "GET",
+			credentials: "include",
+		},
+	);
 
 	if (!response.ok) {
 		throw new Error("Error getting sections");
@@ -11,12 +14,15 @@ export async function getSections() {
 }
 
 export async function createSection(name: string) {
-	const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/sections`, {
-		method: "POST",
-		headers: { "Content-Type": "application/json" },
-		credentials: "include",
-		body: JSON.stringify({ name }),
-	});
+	const response = await fetch(
+		`${import.meta.env.VITE_SERVER_URL}/admin/section`,
+		{
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			credentials: "include",
+			body: JSON.stringify({ name }),
+		},
+	);
 
 	if (!response.ok) {
 		throw new Error("Error creating section");
@@ -26,7 +32,7 @@ export async function createSection(name: string) {
 
 export async function deleteSection(sectionID: string) {
 	const response = await fetch(
-		`${import.meta.env.VITE_SERVER_URL}/sections/${sectionID}`,
+		`${import.meta.env.VITE_SERVER_URL}/admin/section/${sectionID}`,
 		{
 			method: "DELETE",
 			credentials: "include",
