@@ -32,40 +32,47 @@ function AddStation() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="computer"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Section name</FormLabel>
-              <FormControl>
-                <Checkbox
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="monitor"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Section name</FormLabel>
-              <FormControl>
-                <Checkbox
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit">Submit</Button>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-8 border-2 p-6"
+      >
+        <div className="flex flex-col items-start gap-12">
+          <FormField
+            control={form.control}
+            name="computer"
+            render={({ field }) => (
+              <FormItem className="flex flex-row-reverse">
+                <FormLabel className="text-lg">מחשב</FormLabel>
+                <FormControl>
+                  <Checkbox
+                    className="w-6 h-6"
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="monitor"
+            render={({ field }) => (
+              <FormItem className="flex flex-row-reverse">
+                <FormLabel className="text-lg">מסך</FormLabel>
+                <FormControl>
+                  <Checkbox
+                    className="w-6 h-6"
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <Button type="submit">הוספת עמדה</Button>
       </form>
     </Form>
   );

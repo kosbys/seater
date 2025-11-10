@@ -14,7 +14,7 @@ import { Input } from "../ui/input";
 
 const formSchema = z.object({
   name: z.string().min(2, {
-    message: "Password must be at least 2 characters.",
+    message: "לפחות 2 תווים",
   }),
 });
 
@@ -32,13 +32,16 @@ function AddSection() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-8 border-2 p-6"
+      >
         <FormField
           control={form.control}
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Section name</FormLabel>
+              <FormLabel>שם סקשן</FormLabel>
               <FormControl>
                 <Input placeholder="שמש" {...field} />
               </FormControl>
@@ -46,7 +49,7 @@ function AddSection() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit">הוספת סקשן</Button>
       </form>
     </Form>
   );
