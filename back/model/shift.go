@@ -9,6 +9,6 @@ type Shift struct {
 	Date      time.Time
 	StartTime uint
 	EndTime   uint
-	User      User    `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
-	Station   Station `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	User      User    `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	Station   Station `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }

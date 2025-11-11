@@ -4,167 +4,170 @@ import { useForm } from "react-hook-form";
 import z from "zod";
 
 import { getSections } from "@/api/section";
+import { createStation } from "@/api/station";
+import type { Section, StationType } from "@/types/types";
 import { Button } from "../ui/button";
 import {
-	Form,
-	FormControl,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from "../ui/form";
-import {
-	Select,
-	SelectContent,
-	SelectGroup,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "../ui/select";
-import type { Section, StationType } from "@/types/types";
-import { createStation } from "@/api/station";
 import { Input } from "../ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 const formSchema = z.object({
-	name: z.string("בבקשה לבחור שם").min(1, {
-		message: "בבקשה לבחור שם",
-	}),
-	section: z.string().min(1, {
-		message: "בבקשה לבחור סקשן",
-	}),
-	type: z.enum(["laptop", "computer", "tablet", "monitor"]),
+  name: z.string("בבקשה לבחור שם").min(1, {
+    message: "בבקשה לבחור שם",
+  }),
+  section: z.string().min(1, {
+    message: "בבקשה לבחור סקשן",
+  }),
+  type: z.enum(["laptop", "computer", "tablet", "monitor"]),
 });
 
 function AddStation() {
-	const { data: sections, isLoading } = useQuery({
-		queryKey: ["sections"],
-		queryFn: getSections,
-	});
-	const queryClient = useQueryClient();
+  const { data: sections, isLoading } = useQuery({
+    queryKey: ["sections"],
+    queryFn: getSections,
+  });
+  const queryClient = useQueryClient();
 
-	const form = useForm<z.infer<typeof formSchema>>({
-		resolver: zodResolver(formSchema),
-		defaultValues: {
-			type: undefined,
-			section: "",
-		},
-	});
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      type: undefined,
+      section: "",
+    },
+  });
 
-	const addStationMutation = useMutation({
-		mutationFn: ({
-			sectionID,
-			type,
-			name,
-		}: {
-			sectionID: number;
-			type: StationType;
-			name: string;
-		}) => createStation(sectionID, type, name),
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ["sections"] });
-			form.reset();
-		},
-	});
+  const addStationMutation = useMutation({
+    mutationFn: ({
+      sectionID,
+      type,
+      name,
+    }: {
+      sectionID: number;
+      type: StationType;
+      name: string;
+    }) => createStation(sectionID, type, name),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["sections"] });
+      form.reset();
+    },
+  });
 
-	async function onSubmit(values: z.infer<typeof formSchema>) {
-		console.log(values);
-		const { section, type, name } = values;
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values);
+    const { section, type, name } = values;
 
-		// convert ID to number
-		addStationMutation.mutate({
-			sectionID: +section,
-			type,
-			name,
-		});
-		form.reset();
-	}
+    // convert ID to number
+    addStationMutation.mutate({
+      sectionID: +section,
+      type,
+      name,
+    });
+    form.reset();
+  }
 
-	return (
-		<Form {...form}>
-			<form
-				onSubmit={form.handleSubmit(onSubmit)}
-				className="space-y-8 border-2 p-6"
-			>
-				<div className="flex flex-col items-start gap-12">
-					<FormField
-						control={form.control}
-						name="name"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>שם עמדה</FormLabel>
-								<FormControl>
-									<Input placeholder="1" {...field} />
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-					<FormField
-						control={form.control}
-						name="type"
-						render={({ field }) => (
-							<FormItem className="" dir="rtl">
-								<FormControl>
-									<Select
-										onValueChange={field.onChange}
-										value={field.value}
-										dir="rtl"
-									>
-										<SelectTrigger className="w-36">
-											<SelectValue placeholder="סוג עמדה" />
-										</SelectTrigger>
-										<SelectContent>
-											<SelectGroup>
-												<SelectItem value="computer">מחשב</SelectItem>
-												<SelectItem value="monitor">מסך</SelectItem>
-												<SelectItem value="laptop">לאפטופ</SelectItem>
-												<SelectItem value="tablet">טבלט</SelectItem>
-											</SelectGroup>
-										</SelectContent>
-									</Select>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-					<FormField
-						control={form.control}
-						name="section"
-						render={({ field }) => (
-							<FormItem className="" dir="rtl">
-								<FormControl>
-									<Select
-										onValueChange={field.onChange}
-										value={field.value}
-										dir="rtl"
-									>
-										<SelectTrigger className="w-36">
-											<SelectValue placeholder="בחירת סקשן" />
-										</SelectTrigger>
-										<SelectContent>
-											<SelectGroup>
-												{!isLoading &&
-													sections?.map((section: Section) => (
-														<SelectItem
-															value={section.id.toString()}
-															key={section.id}
-														>
-															{section.name}
-														</SelectItem>
-													))}
-											</SelectGroup>
-										</SelectContent>
-									</Select>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-				</div>
-				<Button type="submit">הוספת עמדה</Button>
-			</form>
-		</Form>
-	);
+  return (
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-8 border-2 p-6"
+      >
+        <div className="flex flex-col items-start gap-12">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>שם עמדה</FormLabel>
+                <FormControl>
+                  <Input placeholder="1" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="type"
+            render={({ field }) => (
+              <FormItem className="" dir="rtl">
+                <FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value}
+                    dir="rtl"
+                  >
+                    <SelectTrigger className="w-36">
+                      <SelectValue placeholder="סוג עמדה" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectLabel>סוג עמדה</SelectLabel>
+                        <SelectItem value="computer">מחשב</SelectItem>
+                        <SelectItem value="monitor">מסך</SelectItem>
+                        <SelectItem value="laptop">לאפטופ</SelectItem>
+                        <SelectItem value="tablet">טבלט</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="section"
+            render={({ field }) => (
+              <FormItem className="" dir="rtl">
+                <FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value}
+                    dir="rtl"
+                  >
+                    <SelectTrigger className="w-36">
+                      <SelectValue placeholder="בחירת סקשן" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectLabel>סקשנים</SelectLabel>
+                        {!isLoading &&
+                          sections?.map((section: Section) => (
+                            <SelectItem
+                              value={section.id.toString()}
+                              key={section.id}
+                            >
+                              {section.name}
+                            </SelectItem>
+                          ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <Button type="submit">הוספת עמדה</Button>
+      </form>
+    </Form>
+  );
 }
 
 export { AddStation };
