@@ -6,6 +6,7 @@ type Station struct {
 	Name      string  `json:"name"`
 	Computer  bool    `json:"computer"`
 	Monitor   bool    `json:"monitor"`
+	Tablet    bool    `json:"tablet"`
 	Shifts    []Shift `gorm:"foreignKey:StationID"`
 	Section   Section `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
@@ -15,4 +16,5 @@ type StationCreateRequest struct {
 	Name      string
 	Computer  bool
 	Monitor   bool
+	Tablet    bool
 }
