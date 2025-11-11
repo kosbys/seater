@@ -1,27 +1,20 @@
-import { useQuery } from "@tanstack/react-query";
-import { getSections } from "@/api/section";
 import { AddSection } from "@/components/section/AddSection";
+import { SectionList } from "@/components/section/SectionList";
 import { AddStation } from "@/components/station/AddStation";
 
-// use dropdown to select section when adding station
 function AdminPage() {
-  const { data } = useQuery({
-    queryKey: ["sections"],
-    queryFn: getSections,
-  });
+	return (
+		<div className="flex w-full h-full p-4 gap-4">
+			<div className="flex flex-col flex-1 items-start gap-4">
+				<AddSection />
+				<AddStation />
+			</div>
 
-  console.log(data);
-
-  return (
-    <div className="flex flex-col w-full h-full items-start p-10 gap-4">
-      <div className="flex flex-row gap-4">
-        <AddSection />
-      </div>
-      <div className="flex flex-row gap-4">
-        <AddStation />
-      </div>
-    </div>
-  );
+			<div className="flex flex-col flex-2 items-start gap-4">
+				<SectionList />
+			</div>
+		</div>
+	);
 }
 
 export { AdminPage };

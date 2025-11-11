@@ -22,6 +22,7 @@ func CreateStation(c *gin.Context) {
 		SectionID: req.SectionID,
 		Computer:  req.Computer,
 		Monitor:   req.Monitor,
+		Name:      req.Name,
 	}
 
 	result := database.DB.Create(&station)

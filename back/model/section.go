@@ -1,9 +1,9 @@
 package model
 
 type Section struct {
-	ID       uint      `gorm:"primaryKey"`
-	Name     string    `gorm:"uniqueIndex"`
-	Stations []Station `gorm:"foreignKey:SectionID"`
+	ID       uint      `gorm:"primaryKey" json:"id"`
+	Name     string    `gorm:"uniqueIndex" json:"name"`
+	Stations []Station `gorm:"foreignKey:SectionID" json:"stations"`
 }
 
 type SectionCreateRequest struct {
