@@ -1,7 +1,9 @@
+export type StationType = "laptop" | "computer" | "tablet" | "monitor";
+
 export type Station = {
 	id: number;
 	name: string;
-	type: "laptop" | "computer" | "tablet" | "monitor";
+	type: StationType;
 };
 
 export type Section = {

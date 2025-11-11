@@ -1,3 +1,5 @@
+import type { StationType } from "@/types/types";
+
 export async function getStations() {
 	const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/stations`, {
 		method: "GET",
@@ -10,7 +12,11 @@ export async function getStations() {
 	return response.json();
 }
 
-export async function createStation(sectionID: number, type, name: string) {
+export async function createStation(
+	sectionID: number,
+	type: StationType,
+	name: string,
+) {
 	const response = await fetch(
 		`${import.meta.env.VITE_SERVER_URL}/admin/station`,
 		{

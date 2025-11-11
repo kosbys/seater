@@ -5,7 +5,6 @@ import z from "zod";
 
 import { getSections } from "@/api/section";
 import { Button } from "../ui/button";
-import { Checkbox } from "../ui/checkbox";
 import {
 	Form,
 	FormControl,
@@ -19,11 +18,10 @@ import {
 	SelectContent,
 	SelectGroup,
 	SelectItem,
-	SelectLabel,
 	SelectTrigger,
 	SelectValue,
 } from "../ui/select";
-import type { Section } from "@/types/types";
+import type { Section, StationType } from "@/types/types";
 import { createStation } from "@/api/station";
 import { Input } from "../ui/input";
 
@@ -34,7 +32,7 @@ const formSchema = z.object({
 	section: z.string().min(1, {
 		message: "בבקשה לבחור סקשן",
 	}),
-	type: z.enum(["", "laptop", "computer", "tablet", "monitor"]),
+	type: z.enum(["laptop", "computer", "tablet", "monitor"]),
 });
 
 function AddStation() {
@@ -47,7 +45,7 @@ function AddStation() {
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			type: "",
+			type: undefined,
 			section: "",
 		},
 	});
@@ -59,7 +57,7 @@ function AddStation() {
 			name,
 		}: {
 			sectionID: number;
-			type: "laptop" | "computer" | "tablet" | "monitor" | "";
+			type: StationType;
 			name: string;
 		}) => createStation(sectionID, type, name),
 		onSuccess: () => {
@@ -78,6 +76,7 @@ function AddStation() {
 			type,
 			name,
 		});
+		form.reset();
 	}
 
 	return (
@@ -128,9 +127,6 @@ function AddStation() {
 							</FormItem>
 						)}
 					/>
-
-					{/* select type */}
-
 					<FormField
 						control={form.control}
 						name="section"

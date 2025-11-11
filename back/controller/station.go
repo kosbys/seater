@@ -20,9 +20,7 @@ func CreateStation(c *gin.Context) {
 
 	station := model.Station{
 		SectionID: req.SectionID,
-		Computer:  req.Computer,
-		Monitor:   req.Monitor,
-		Tablet:    req.Tablet,
+		Type:      req.Type,
 		Name:      req.Name,
 	}
 
