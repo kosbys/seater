@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { getShiftsByWeek } from "@/api/shift";
+import { useDateNavigate } from "@/hooks/dateNavigate";
 import { getSundayDate, getWeekDates } from "../../utils/date";
 import { Table, TableBody, TableCell, TableRow } from "../ui/table";
 import { WeekButtons } from "./WeekButtons";
@@ -11,6 +12,7 @@ const WEEK_MILISECONDS = 86400000 * 7;
 // clicking on a day should lead you to its own page where it renders a DayPage with shift stats
 
 function WeekGrid() {
+  const dateNavigate = useDateNavigate();
   const today = new Date();
   const offset = today.getDay();
   const [sunday, setSunday] = useState<Date>(getSundayDate(today, offset));
@@ -31,10 +33,6 @@ function WeekGrid() {
     setSunday(
       (prevSunday) => new Date(prevSunday.getTime() - WEEK_MILISECONDS)
     );
-  }
-
-  function goToDate(date: string) {
-    console.log(date);
   }
 
   // map every date with a shift
@@ -62,7 +60,9 @@ function WeekGrid() {
                     return (
                       <TableCell
                         key={cellKey}
-                        onClick={() => goToDate(day.date)}
+                        onClick={() =>
+                          dateNavigate(day.date.replaceAll("-", ""))
+                        }
                         data-date={day.date}
                         className="border px-4 py-2 h-16 align-middle"
                       >
