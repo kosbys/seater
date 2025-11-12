@@ -1,8 +1,13 @@
-export async function getShifts() {
-	const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/shifts`, {
-		method: "GET",
-		credentials: "include",
-	});
+export async function getShiftsByWeek(sunday: Date) {
+	// convert sunday to a query param?
+
+	const response = await fetch(
+		`${import.meta.env.VITE_SERVER_URL}/shifts/${sunday}`,
+		{
+			method: "GET",
+			credentials: "include",
+		},
+	);
 
 	if (!response.ok) {
 		throw new Error("Error getting shifts");

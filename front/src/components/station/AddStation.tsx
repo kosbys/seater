@@ -37,6 +37,7 @@ const formSchema = z.object({
 });
 
 function AddStation() {
+  // move query outside sometime?
   const { data: sections, isLoading } = useQuery({
     queryKey: ["sections"],
     queryFn: getSections,

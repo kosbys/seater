@@ -11,3 +11,7 @@ export type Section = {
 	name: string;
 	stations: Station[];
 };
+
+export type Shift = {
+	name: string;
+};
