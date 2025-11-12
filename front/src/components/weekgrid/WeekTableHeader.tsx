@@ -12,6 +12,7 @@ function WeekTableHeader({ weekDates }: HeaderProps) {
         {weekDates.map((day) => (
           <TableHead
             key={day.date}
+            data-date={day.date}
             className="text-center border-x-2 py-2 text-xs sm:text-sm w-1/5 wrap-break-word whitespace-normal"
           >
             <div className="flex flex-col">

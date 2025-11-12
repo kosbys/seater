@@ -1,4 +1,4 @@
-export async function getShiftsByWeek(sunday: Date) {
+export async function getShiftsByWeek(sunday: string) {
 	// convert sunday to a query param?
 
 	const response = await fetch(

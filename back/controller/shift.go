@@ -9,3 +9,7 @@ func CreateShift(c *gin.Context) {
 func DeleteShift(c *gin.Context) {
 
 }
+
+func GetShiftsByWeek() {
+
+}

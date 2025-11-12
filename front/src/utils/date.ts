@@ -21,7 +21,7 @@ function getWeekDates(sunday: Date): FormattedDate[] {
 
 	for (let i = 0; i < WEEK_RANGE; i++) {
 		const day = currentDay.toLocaleString("he-IL", { weekday: "long" });
-		const date = currentDay.toLocaleDateString("en-GB").toString();
+		const date = currentDay.toISOString().split("T")[0];
 
 		weekDates.push({ day, date, shifts: [] });
 

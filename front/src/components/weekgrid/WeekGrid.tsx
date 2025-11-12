@@ -1,12 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { getShifts } from "@/api/shift";
+import { getShiftsByWeek } from "@/api/shift";
 import { getSundayDate, getWeekDates } from "../../utils/date";
 import { Table, TableBody, TableCell, TableRow } from "../ui/table";
 import { WeekButtons } from "./WeekButtons";
 import { WeekTableHeader } from "./WeekTableHeader";
 
 const WEEK_MILISECONDS = 86400000 * 7;
+
+// clicking on a day should lead you to its own page where it renders a DayPage with shift stats
 
 function WeekGrid() {
   const today = new Date();
@@ -15,7 +17,8 @@ function WeekGrid() {
 
   const { data: shifts, isLoading } = useQuery({
     queryKey: ["weekShifts", sunday],
-    queryFn: () => getShifts(sunday),
+    queryFn: () =>
+      getShiftsByWeek(sunday.toISOString().replaceAll("-", "").split("T")[0]),
   });
 
   function nextWeek() {
@@ -30,12 +33,18 @@ function WeekGrid() {
     );
   }
 
+  function goToDate(date: string) {
+    console.log(date);
+  }
+
   // map every date with a shift
   const weekDates = getWeekDates(sunday);
 
   const rowsPerDay = 10;
 
   console.log(weekDates);
+
+  console.log("sunday", sunday);
 
   return (
     <>
@@ -44,15 +53,17 @@ function WeekGrid() {
         <Table className="w-full text-center border-0 rounded-lg table-fixed">
           <WeekTableHeader weekDates={weekDates} />
           <TableBody>
-            {Array.from({ length: rowsPerDay }).map((_, rowIdx) => {
-              const rowKey = `row-${rowIdx}`;
+            {Array.from({ length: rowsPerDay }).map((_, rowIndex) => {
+              const rowKey = `row-${rowIndex}`;
               return (
                 <TableRow key={rowKey}>
-                  {Array.from(weekDates.entries()).map(([_, formatted]) => {
-                    const cellKey = `${formatted.date}-${rowIdx}`;
+                  {weekDates.map((day) => {
+                    const cellKey = `${day.date}-${rowIndex}`;
                     return (
                       <TableCell
                         key={cellKey}
+                        onClick={() => goToDate(day.date)}
+                        data-date={day.date}
                         className="border px-4 py-2 h-16 align-middle"
                       >
                         {/* shift data here */}

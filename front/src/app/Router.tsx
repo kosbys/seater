@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router";
 import { AdminPage } from "./pages/AdminPage";
+import { DayPage } from "./pages/DayPage";
 import { Homepage } from "./pages/Homepage";
 import { Login } from "./pages/Login";
 import { NotFound } from "./pages/NotFound";
@@ -18,6 +19,7 @@ function Router() {
 
       <Route element={<ProtectedRoute />}>
         <Route path="/" element={<Homepage />} />
+        <Route path="/days/:day" element={<DayPage />} />
       </Route>
 
       <Route element={<AdminRoute />}>
