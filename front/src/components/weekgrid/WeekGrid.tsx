@@ -17,10 +17,11 @@ function WeekGrid() {
   const offset = today.getDay();
   const [sunday, setSunday] = useState<Date>(getSundayDate(today, offset));
 
+  console.log(sunday.toISOString().split("T")[0]);
+
   const { data: shifts, isLoading } = useQuery({
     queryKey: ["weekShifts", sunday],
-    queryFn: () =>
-      getShiftsByWeek(sunday.toISOString().replaceAll("-", "").split("T")[0]),
+    queryFn: () => getShiftsByWeek(sunday.toISOString().split("T")[0]),
   });
 
   function nextWeek() {

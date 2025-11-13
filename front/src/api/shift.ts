@@ -1,8 +1,8 @@
-export async function getShiftsByWeek(sunday: string) {
+export async function getShiftsByWeek(day: string) {
 	// convert sunday to a query param?
 
 	const response = await fetch(
-		`${import.meta.env.VITE_SERVER_URL}/shifts/${sunday}`,
+		`${import.meta.env.VITE_SERVER_URL}/shifts/${day}`,
 		{
 			method: "GET",
 			credentials: "include",
