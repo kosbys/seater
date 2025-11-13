@@ -35,7 +35,7 @@ export async function createStation(
 
 export async function deleteStation(stationID: string) {
 	const response = await fetch(
-		`${import.meta.env.VITE_SERVER_URL}/stations/${stationID}`,
+		`${import.meta.env.VITE_SERVER_URL}/admin/station/${stationID}`,
 		{
 			method: "DELETE",
 			credentials: "include",
