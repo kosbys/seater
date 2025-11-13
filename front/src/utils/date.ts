@@ -31,4 +31,10 @@ function getWeekDates(sunday: Date): FormattedDate[] {
 	return weekDates;
 }
 
-export { getWeekDates, getSundayDate };
+function urlParamToDate(date: string) {
+	return new Date(
+		`${date.slice(0, 4)}-${date.slice(4, 6)}-${date.slice(6, 8)}`,
+	);
+}
+
+export { getWeekDates, getSundayDate, urlParamToDate };

@@ -17,7 +17,7 @@ function StationBlock({ station }: { station: Station }) {
   });
 
   return (
-    <div className="group w-32 h-32 border-2 flex flex-col p-2 gap-1">
+    <div className="group w-32 h-32 border-2 flex flex-col p-2 gap-1 hover:opacity-70">
       <span className="text-lg">{station.name}</span>
       <span className="flex flex-row gap-1">
         <StationTypeIcon type={station.type} />

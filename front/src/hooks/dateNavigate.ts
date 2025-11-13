@@ -4,8 +4,7 @@ function useDateNavigate() {
 	const navigate = useNavigate();
 
 	function dateNavigate(date: string) {
-		console.log(date);
-		navigate(`/${date}`);
+		navigate(`/days/${date}`);
 	}
 
 	return dateNavigate;
