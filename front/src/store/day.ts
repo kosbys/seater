@@ -1,11 +1,11 @@
 import { create } from "zustand";
 
 interface DateState {
-	currentDate: string | null;
-	setCurrentDate: (date: string) => void;
+	selectedDate: Date | null;
+	setSelectedDate: (date: Date) => void;
 }
 
 export const useDateStore = create<DateState>((set) => ({
-	currentDate: null,
-	setCurrentDate: (date) => set({ currentDate: date }),
+	selectedDate: null,
+	setSelectedDate: (date) => set({ selectedDate: date }),
 }));

@@ -35,6 +35,8 @@ func SetupRouter() *gin.Engine {
 	protected.Use(middleware.AuthMiddleware())
 	{
 		protected.GET("sections", controller.GetSections)
+		protected.GET("/shifts/week/:date", controller.GetShiftsByWeek)
+		protected.GET("/shifts/day/:date", controller.GetShiftsByDay)
 	}
 
 	admin := r.Group("/admin")
