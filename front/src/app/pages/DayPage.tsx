@@ -1,5 +1,6 @@
 import { useParams } from "react-router";
 import { SectionList } from "@/components/section/SectionList";
+import { ShiftModal } from "@/components/shift/ShiftModal";
 import { useDateStore } from "@/store/day";
 import { urlParamToDate } from "@/utils/date";
 import { NotFound } from "./NotFound";
@@ -22,9 +23,12 @@ function DayPage() {
   console.log(date);
 
   return (
-    <div className="flex flex-col flex-2 items-center gap-4 pt-4">
-      <SectionList />
-    </div>
+    <>
+      <ShiftModal />
+      <div className="flex flex-col flex-2 items-center gap-4 pt-4">
+        <SectionList />
+      </div>
+    </>
   );
 }
 

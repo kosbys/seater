@@ -17,7 +17,8 @@ function ShiftModal() {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Modal</DialogTitle>
-          <DialogDescription>{element}</DialogDescription>
+          <DialogDescription></DialogDescription>
+          {element}
         </DialogHeader>
       </DialogContent>
     </Dialog>

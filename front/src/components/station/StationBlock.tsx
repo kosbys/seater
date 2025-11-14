@@ -27,9 +27,9 @@ function StationBlock({ station }: { station: Station }) {
 
   return (
     <div>
-      <button
-        type="button"
-        tabIndex={0}
+      {/** biome-ignore lint/a11y/noStaticElementInteractions: <sn> */}
+      {/** biome-ignore lint/a11y/useKeyWithClickEvents: <s> */}
+      <div
         className="group w-32 h-32 border-2 flex flex-col p-2 gap-1 hover:opacity-70"
         onClick={() => {
           openModal(<AddShift />);
@@ -52,7 +52,7 @@ function StationBlock({ station }: { station: Station }) {
             מחק
           </Button>
         )}
-      </button>
+      </div>
     </div>
   );
 }

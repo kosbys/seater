@@ -5,14 +5,7 @@
 // get date via store
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@radix-ui/react-select";
+
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { useDateStore } from "@/store/day";
@@ -24,6 +17,14 @@ import {
   FormItem,
   FormMessage,
 } from "../ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 const formSchema = z.object({
   startTime: z.string(),
@@ -110,7 +111,7 @@ function AddShift() {
             </FormItem>
           )}
         />
-        <Button type="submit"> </Button>
+        <Button type="submit">הוספה</Button>
       </form>
     </Form>
   );
