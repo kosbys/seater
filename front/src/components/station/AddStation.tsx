@@ -47,7 +47,8 @@ function AddStation() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      type: undefined,
+      name: "",
+      type: "computer",
       section: "",
     },
   });

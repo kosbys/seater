@@ -10,6 +10,7 @@ export async function getSections() {
 	if (!response.ok) {
 		throw new Error("Error getting sections");
 	}
+
 	return response.json();
 }
 

@@ -18,6 +18,8 @@ function SectionBlock({ section }: { section: Section }) {
     },
   });
 
+  console.log(stations);
+
   return (
     <div className="flex flex-col">
       <div className="flex flex-row items-center justify-between pb-1">

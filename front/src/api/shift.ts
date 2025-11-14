@@ -1,6 +1,21 @@
 export async function getShiftsByWeek(day: string) {
 	const response = await fetch(
-		`${import.meta.env.VITE_SERVER_URL}/shifts/${day}`,
+		`${import.meta.env.VITE_SERVER_URL}/shifts/week/${day}`,
+		{
+			method: "GET",
+			credentials: "include",
+		},
+	);
+
+	if (!response.ok) {
+		throw new Error("Error getting shifts");
+	}
+	return response.json();
+}
+
+export async function getShiftsByDay(day: string) {
+	const response = await fetch(
+		`${import.meta.env.VITE_SERVER_URL}/shifts/day/${day}`,
 		{
 			method: "GET",
 			credentials: "include",

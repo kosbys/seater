@@ -5,10 +5,12 @@
 // get date via store
 
 import { zodResolver } from "@hookform/resolvers/zod";
-
+import { useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import z from "zod";
+import { getShiftsByDay } from "@/api/shift";
 import { useDateStore } from "@/store/day";
+import type { Shift } from "@/types/types";
 import { Button } from "../ui/button";
 import {
   Form,
@@ -36,7 +38,19 @@ function AddShift() {
   const selectedDate = useDateStore((s) => s.selectedDate);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {},
+    defaultValues: {
+      startTime: "",
+      endTime: "",
+    },
+  });
+
+  const { data: shifts, isLoading } = useQuery<Shift[]>({
+    queryKey: ["dayShifts", selectedDate],
+    queryFn: () => {
+      if (!selectedDate) throw new Error("no date selected");
+      return getShiftsByDay(selectedDate.toISOString().split("T")[0]);
+    },
+    enabled: !!selectedDate,
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
