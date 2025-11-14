@@ -5,10 +5,10 @@
 // get date via store
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import z from "zod";
-import { getShiftsByDay } from "@/api/shift";
+import z, { number } from "zod";
+import { createShift, getShiftsByDay } from "@/api/shift";
 import { useDateStore } from "@/store/day";
 import type { Shift } from "@/types/types";
 import { Button } from "../ui/button";
@@ -34,7 +34,8 @@ const formSchema = z.object({
 });
 
 // prop that selects the station for you if you are in DayPage, if not set then add a form field to quick-select a station?
-function AddShift() {
+function AddShift({ stationID }: { stationID: number }) {
+  const queryClient = useQueryClient();
   const selectedDate = useDateStore((s) => s.selectedDate);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -53,8 +54,39 @@ function AddShift() {
     enabled: !!selectedDate,
   });
 
+  const addShiftMutation = useMutation({
+    mutationFn: ({
+      stationID,
+      date,
+      startTime,
+      endTime,
+    }: {
+      stationID: number;
+      date: Date;
+      startTime: string;
+      endTime: string;
+    }) => createShift(stationID, date, startTime, endTime),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["dayShifts", selectedDate] });
+      form.reset();
+    },
+  });
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    const { startTime, endTime } = values;
     console.log(values);
+    console.log(selectedDate);
+
+    // check for overlap in shifts and our sent time
+
+    if (!selectedDate) return console.error("No date found");
+
+    addShiftMutation.mutate({
+      stationID,
+      date: selectedDate,
+      startTime,
+      endTime,
+    });
   }
 
   return (

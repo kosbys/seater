@@ -29,7 +29,7 @@ export async function getShiftsByDay(day: string) {
 }
 
 export async function createShift(
-	sectionID: string,
+	stationID: number,
 	date: Date,
 	startTime: string,
 	endTime: string,
@@ -39,7 +39,7 @@ export async function createShift(
 		headers: { "Content-Type": "application/json" },
 		credentials: "include",
 		body: JSON.stringify({
-			sectionID,
+			stationID,
 			date: date.toISOString().split("T")[0],
 			startTime,
 			endTime,

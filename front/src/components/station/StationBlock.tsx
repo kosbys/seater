@@ -28,7 +28,7 @@ function StationBlock({ station }: { station: Station }) {
         variant="ghost"
         className="group w-32 h-32 border-2 flex flex-col p-2 gap-1 hover:opacity-70"
         onClick={() => {
-          openModal(<AddShift />);
+          openModal(<AddShift stationID={station.id} />);
         }}
       >
         <div className="w-full h-full flex flex-col">
