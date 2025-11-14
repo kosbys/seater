@@ -6,6 +6,8 @@ import type { Station } from "@/types/types";
 import { Button } from "../ui/button";
 import { StationTypeIcon } from "./StationTypeIcon";
 
+// onclick open modal
+
 function StationBlock({ station }: { station: Station }) {
   const selectedDate = useDateStore((s) => s.selectedDate);
   const queryClient = useQueryClient();
