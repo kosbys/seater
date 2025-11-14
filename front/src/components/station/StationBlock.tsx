@@ -1,10 +1,8 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getShiftsByDay } from "@/api/shift";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteStation } from "@/api/station";
 import { useAuthStore } from "@/store/auth";
-import { useDateStore } from "@/store/day";
 import { useModalStore } from "@/store/modal";
-import type { Shift, Station } from "@/types/types";
+import type { Station } from "@/types/types";
 import { AddShift } from "../shift/AddShift";
 import { Button } from "../ui/button";
 import { StationTypeIcon } from "./StationTypeIcon";
@@ -25,32 +23,36 @@ function StationBlock({ station }: { station: Station }) {
 
   return (
     <div>
-      <button
-        type="button"
+      <Button
+        asChild
+        variant="ghost"
         className="group w-32 h-32 border-2 flex flex-col p-2 gap-1 hover:opacity-70"
         onClick={() => {
           openModal(<AddShift />);
         }}
       >
-        <span className="text-lg">{station.name}</span>
-        <span className="flex flex-row gap-1">
-          <StationTypeIcon type={station.type} />
-          <span>{station.type}</span>
-        </span>
+        <div className="w-full h-full flex flex-col">
+          <span className="text-lg">{station.name}</span>
 
-        {user?.role === "admin" && (
-          <Button
-            variant="destructive"
-            className="mt-auto self-end opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-black"
-            onClick={(e) => {
-              e.stopPropagation();
-              deleteSectionMutation.mutate(station.id);
-            }}
-          >
-            מחק
-          </Button>
-        )}
-      </button>
+          <span className="flex flex-row gap-1">
+            <StationTypeIcon type={station.type} />
+            <span>{station.type}</span>
+          </span>
+
+          {user?.role === "admin" && (
+            <Button
+              variant="destructive"
+              className="mt-auto self-end opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-black"
+              onClick={(e) => {
+                e.stopPropagation();
+                deleteSectionMutation.mutate(station.id);
+              }}
+            >
+              מחק
+            </Button>
+          )}
+        </div>
+      </Button>
     </div>
   );
 }

@@ -5,16 +5,16 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "../ui/dialog";
 
 function ShiftModal() {
   const { isOpen, element, closeModal } = useModalStore();
 
+  if (!isOpen) return null;
+
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && closeModal()}>
-      <DialogTrigger>Open</DialogTrigger>
-      <DialogContent>
+    <Dialog open={isOpen} onOpenChange={closeModal}>
+      <DialogContent className="transition-none">
         <DialogHeader>
           <DialogTitle>Modal</DialogTitle>
           <DialogDescription></DialogDescription>
