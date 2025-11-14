@@ -1,10 +1,11 @@
-// like adminpage
-
 import { useParams } from "react-router";
 import { SectionList } from "@/components/section/SectionList";
 import { useDateStore } from "@/store/day";
 import { urlParamToDate } from "@/utils/date";
 import { NotFound } from "./NotFound";
+
+// modal state here?
+// query for shifts today
 
 function DayPage() {
   const setSelecteDate = useDateStore((s) => s.setSelectedDate);

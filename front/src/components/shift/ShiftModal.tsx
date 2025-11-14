@@ -7,6 +7,8 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 
+type ShiftModalProps = {};
+
 function ShiftModal() {
   return (
     <Dialog>
