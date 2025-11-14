@@ -30,6 +30,7 @@ const formSchema = z.object({
   endTime: z.string(),
 });
 
+// prop that selects the station for you if you are in DayPage, if not set then add a form field to quick-select a station?
 function AddShift() {
   const selectedDate = useDateStore((s) => s.selectedDate);
   const form = useForm<z.infer<typeof formSchema>>({

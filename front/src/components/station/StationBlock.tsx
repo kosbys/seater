@@ -2,7 +2,9 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteStation } from "@/api/station";
 import { useAuthStore } from "@/store/auth";
 import { useDateStore } from "@/store/day";
+import { useModalStore } from "@/store/modal";
 import type { Station } from "@/types/types";
+import { AddShift } from "../shift/AddShift";
 import { Button } from "../ui/button";
 import { StationTypeIcon } from "./StationTypeIcon";
 
@@ -10,6 +12,7 @@ import { StationTypeIcon } from "./StationTypeIcon";
 
 function StationBlock({ station }: { station: Station }) {
   const selectedDate = useDateStore((s) => s.selectedDate);
+  const openModal = useModalStore((s) => s.openModal);
   const queryClient = useQueryClient();
   const user = useAuthStore((s) => s.user);
 
@@ -28,6 +31,9 @@ function StationBlock({ station }: { station: Station }) {
         type="button"
         tabIndex={0}
         className="group w-32 h-32 border-2 flex flex-col p-2 gap-1 hover:opacity-70"
+        onClick={() => {
+          openModal(<AddShift />);
+        }}
       >
         <span className="text-lg">{station.name}</span>
         <span className="flex flex-row gap-1">

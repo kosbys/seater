@@ -1,3 +1,4 @@
+import { useModalStore } from "@/store/modal";
 import {
   Dialog,
   DialogContent,
@@ -7,19 +8,16 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 
-type ShiftModalProps = {};
-
 function ShiftModal() {
+  const { isOpen, element, closeModal } = useModalStore();
+
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={(open) => !open && closeModal()}>
       <DialogTrigger>Open</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Are you absolutely sure?</DialogTitle>
-          <DialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
-          </DialogDescription>
+          <DialogTitle>Modal</DialogTitle>
+          <DialogDescription>{element}</DialogDescription>
         </DialogHeader>
       </DialogContent>
     </Dialog>
