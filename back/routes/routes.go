@@ -35,8 +35,9 @@ func SetupRouter() *gin.Engine {
 	protected.Use(middleware.AuthMiddleware())
 	{
 		protected.GET("sections", controller.GetSections)
-		protected.GET("/shifts/week/:date", controller.GetShiftsByWeek)
-		protected.GET("/shifts/day/:date", controller.GetShiftsByDay)
+		protected.GET("/shifts/week/:day", controller.GetShiftsByWeek)
+		protected.GET("/shifts/day/:day", controller.GetShiftsByDay)
+		protected.POST("/shifts", controller.CreateShift)
 	}
 
 	admin := r.Group("/admin")
@@ -44,8 +45,8 @@ func SetupRouter() *gin.Engine {
 	admin.Use(middleware.AdminMiddleware())
 	{
 		admin.POST("/section", controller.CreateSection)
-		admin.DELETE("/section/:id", controller.DeleteSection)
 		admin.POST("/station", controller.CreateStation)
+		admin.DELETE("/section/:id", controller.DeleteSection)
 		admin.DELETE("/station/:id", controller.DeleteStation)
 	}
 

@@ -6,6 +6,11 @@ export type FormattedDate = {
 	shifts: Shift[];
 };
 
+export type Range = {
+	start: number;
+	end: number;
+};
+
 // 5 days in Sunday -> Thursday
 const WEEK_RANGE = 5;
 
@@ -37,4 +42,8 @@ function urlParamToDate(date: string) {
 	);
 }
 
-export { getWeekDates, getSundayDate, urlParamToDate };
+function checkOverlap(a: Range, b: Range) {
+	return a.start < b.end && b.start < a.end;
+}
+
+export { getWeekDates, getSundayDate, urlParamToDate, checkOverlap };

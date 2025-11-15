@@ -1,16 +1,12 @@
-// range selector?
-// check station data before sending?
-// form
-// get station info via props?
-// get date via store
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import z, { number } from "zod";
+import z from "zod";
 import { createShift, getShiftsByDay } from "@/api/shift";
 import { useDateStore } from "@/store/day";
+import { useModalStore } from "@/store/modal";
 import type { Shift } from "@/types/types";
+import { checkOverlap } from "@/utils/date";
 import { Button } from "../ui/button";
 import {
   Form,
@@ -34,7 +30,12 @@ const formSchema = z.object({
 });
 
 // prop that selects the station for you if you are in DayPage, if not set then add a form field to quick-select a station?
+// quick select 9-13 and 11-15
+// check for overlap in shifts and our sent time
+
+// map over every shift in day and check for overlap with our sent range
 function AddShift({ stationID }: { stationID: number }) {
+  const closeModal = useModalStore((s) => s.closeModal);
   const queryClient = useQueryClient();
   const selectedDate = useDateStore((s) => s.selectedDate);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -54,6 +55,10 @@ function AddShift({ stationID }: { stationID: number }) {
     enabled: !!selectedDate,
   });
 
+  if (!isLoading) {
+    console.log(shifts);
+  }
+
   const addShiftMutation = useMutation({
     mutationFn: ({
       stationID,
@@ -63,8 +68,8 @@ function AddShift({ stationID }: { stationID: number }) {
     }: {
       stationID: number;
       date: Date;
-      startTime: string;
-      endTime: string;
+      startTime: number;
+      endTime: number;
     }) => createShift(stationID, date, startTime, endTime),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["dayShifts", selectedDate] });
@@ -72,23 +77,19 @@ function AddShift({ stationID }: { stationID: number }) {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    const { startTime, endTime } = values;
-    console.log(values);
+  async function onSubmit({ startTime, endTime }: z.infer<typeof formSchema>) {
     console.log(selectedDate);
 
-    // check for overlap in shifts and our sent time
-
     if (!selectedDate) return console.error("No date found");
-
-    console.log(stationID, selectedDate, startTime, endTime);
 
     addShiftMutation.mutate({
       stationID,
       date: selectedDate,
-      startTime,
-      endTime,
+      startTime: Number(startTime),
+      endTime: Number(endTime),
     });
+
+    closeModal();
   }
 
   return (

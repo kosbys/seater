@@ -1,6 +1,6 @@
 export async function getShiftsByWeek(day: string) {
 	const response = await fetch(
-		`${import.meta.env.VITE_SERVER_URL}/shifts/week/${day}`,
+		`${import.meta.env.VITE_SERVER_URL}/api/shifts/week/${day}`,
 		{
 			method: "GET",
 			credentials: "include",
@@ -15,7 +15,7 @@ export async function getShiftsByWeek(day: string) {
 
 export async function getShiftsByDay(day: string) {
 	const response = await fetch(
-		`${import.meta.env.VITE_SERVER_URL}/shifts/day/${day}`,
+		`${import.meta.env.VITE_SERVER_URL}/api/shifts/day/${day}`,
 		{
 			method: "GET",
 			credentials: "include",
@@ -32,20 +32,23 @@ export async function getShiftsByDay(day: string) {
 export async function createShift(
 	stationID: number,
 	date: Date,
-	startTime: string,
-	endTime: string,
+	startTime: number,
+	endTime: number,
 ) {
-	const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/shifts`, {
-		method: "POST",
-		headers: { "Content-Type": "application/json" },
-		credentials: "include",
-		body: JSON.stringify({
-			stationID,
-			date: date.toISOString().split("T")[0],
-			startTime,
-			endTime,
-		}),
-	});
+	const response = await fetch(
+		`${import.meta.env.VITE_SERVER_URL}/api/shifts`,
+		{
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			credentials: "include",
+			body: JSON.stringify({
+				stationID,
+				date: date.toISOString().split("T")[0],
+				startTime,
+				endTime,
+			}),
+		},
+	);
 
 	if (!response.ok) {
 		throw new Error("Error creating shift");
@@ -55,7 +58,7 @@ export async function createShift(
 
 export async function deleteShift(shiftID: string) {
 	const response = await fetch(
-		`${import.meta.env.VITE_SERVER_URL}/shifts/${shiftID}`,
+		`${import.meta.env.VITE_SERVER_URL}/api/shifts/${shiftID}`,
 		{
 			method: "DELETE",
 			credentials: "include",

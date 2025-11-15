@@ -34,7 +34,7 @@ func CreateShift(c *gin.Context) {
 	err = c.ShouldBindJSON(&req)
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input", "msg": err})
 		return
 	}
 
