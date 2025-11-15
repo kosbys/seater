@@ -14,7 +14,7 @@ type Shift struct {
 }
 
 type ShiftCreateRequst struct {
-	Date      time.Time
+	Date      string
 	StationID uint
 	StartTime uint
 	EndTime   uint

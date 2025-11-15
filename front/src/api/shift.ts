@@ -28,6 +28,7 @@ export async function getShiftsByDay(day: string) {
 	return response.json();
 }
 
+// converts date to YYYY-MM-DD
 export async function createShift(
 	stationID: number,
 	date: Date,

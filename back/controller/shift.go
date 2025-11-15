@@ -38,10 +38,17 @@ func CreateShift(c *gin.Context) {
 		return
 	}
 
+	dateParsed, err := time.Parse(layout, req.Date)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid date"})
+		return
+	}
+
 	shift := model.Shift{
 		StationID: req.StationID,
 		UserID:    userIDUint,
-		Date:      req.Date,
+		Date:      dateParsed,
 		StartTime: req.StartTime,
 		EndTime:   req.EndTime,
 	}
