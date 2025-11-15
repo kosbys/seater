@@ -14,4 +14,7 @@ export type Section = {
 
 export type Shift = {
 	name: string;
+	date: Date;
+	startTime: number;
+	endTime: number;
 };

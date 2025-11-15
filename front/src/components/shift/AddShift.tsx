@@ -24,11 +24,6 @@ import {
   SelectValue,
 } from "../ui/select";
 
-const formSchema = z.object({
-  startTime: z.string(),
-  endTime: z.string(),
-});
-
 // prop that selects the station for you if you are in DayPage, if not set then add a form field to quick-select a station?
 // quick select 9-13 and 11-15
 // check for overlap in shifts and our sent time
@@ -38,13 +33,6 @@ function AddShift({ stationID }: { stationID: number }) {
   const closeModal = useModalStore((s) => s.closeModal);
   const queryClient = useQueryClient();
   const selectedDate = useDateStore((s) => s.selectedDate);
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      startTime: "",
-      endTime: "",
-    },
-  });
 
   const { data: shifts, isLoading } = useQuery<Shift[]>({
     queryKey: ["dayShifts", selectedDate],
@@ -58,6 +46,44 @@ function AddShift({ stationID }: { stationID: number }) {
   if (!isLoading) {
     console.log(shifts);
   }
+
+  const formSchema = z
+    .object({
+      startTime: z.string(),
+      endTime: z.string(),
+    })
+    .superRefine(({ startTime, endTime }, context) => {
+      if (!shifts) return;
+
+      if (+startTime >= +endTime) {
+        context.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "זמן התחלה חייב להיות לפני זמן סיום",
+          path: ["startTime"],
+        });
+        return;
+      }
+
+      const overlap = shifts.some(
+        (shift) => +startTime < shift.endTime && +endTime > shift.startTime
+      );
+
+      if (overlap) {
+        context.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "לא ניתן להירשם לזמן של משמרת נוכחת",
+          path: ["startTime"],
+        });
+      }
+    });
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      startTime: "",
+      endTime: "",
+    },
+  });
 
   const addShiftMutation = useMutation({
     mutationFn: ({
@@ -74,9 +100,11 @@ function AddShift({ stationID }: { stationID: number }) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["dayShifts", selectedDate] });
       form.reset();
+      closeModal();
     },
   });
 
+  // check overlap
   async function onSubmit({ startTime, endTime }: z.infer<typeof formSchema>) {
     console.log(selectedDate);
 
@@ -88,8 +116,6 @@ function AddShift({ stationID }: { stationID: number }) {
       startTime: Number(startTime),
       endTime: Number(endTime),
     });
-
-    closeModal();
   }
 
   return (
