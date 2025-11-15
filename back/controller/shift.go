@@ -3,6 +3,7 @@ package controller
 import (
 	"back/database"
 	"back/model"
+	"net/http"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -10,8 +11,24 @@ import (
 
 const layout = "2006-01-02"
 
+// check uniqueness
 func CreateShift(c *gin.Context) {
+	userID, exists := c.Get("user_id")
 
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Not authenticated"})
+		c.Abort()
+		return
+	}
+
+	var req model.ShiftCreateRequst
+
+	err := c.ShouldBindJSON(&req)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
+		return
+	}
 }
 
 func DeleteShift(c *gin.Context) {

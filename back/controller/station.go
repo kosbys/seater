@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// check uniqueness
 func CreateStation(c *gin.Context) {
 	var req model.StationCreateRequest
 

@@ -12,3 +12,10 @@ type Shift struct {
 	User      User    `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 	Station   Station `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
+
+type ShiftCreateRequst struct {
+	Date      time.Time
+	StationID uint
+	StartTime uint
+	EndTime   uint
+}

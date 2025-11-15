@@ -81,6 +81,8 @@ function AddShift({ stationID }: { stationID: number }) {
 
     if (!selectedDate) return console.error("No date found");
 
+    console.log(stationID, selectedDate, startTime, endTime);
+
     addShiftMutation.mutate({
       stationID,
       date: selectedDate,
