@@ -3,6 +3,7 @@ package controller
 import (
 	"back/database"
 	"back/model"
+	"back/utils"
 	"net/http"
 	"time"
 
@@ -11,7 +12,6 @@ import (
 
 const layout = "2006-01-02"
 
-// check uniqueness
 func CreateShift(c *gin.Context) {
 	userID, exists := c.Get("user_id")
 
@@ -21,14 +21,42 @@ func CreateShift(c *gin.Context) {
 		return
 	}
 
+	userIDUint, err := utils.UserIDtoUInt(userID)
+
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid user ID"})
+		c.Abort()
+		return
+	}
+
 	var req model.ShiftCreateRequst
 
-	err := c.ShouldBindJSON(&req)
+	err = c.ShouldBindJSON(&req)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
 		return
 	}
+
+	shift := model.Shift{
+		StationID: req.StationID,
+		UserID:    userIDUint,
+		Date:      req.Date,
+		StartTime: req.StartTime,
+		EndTime:   req.EndTime,
+	}
+
+	result := database.DB.Create(&shift)
+
+	if result.Error != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to create shift"})
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{
+		"message": "Shift created successfully",
+		"shift":   shift,
+	})
 }
 
 func DeleteShift(c *gin.Context) {
