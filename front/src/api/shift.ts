@@ -10,7 +10,8 @@ export async function getShiftsByWeek(day: string) {
 	if (!response.ok) {
 		throw new Error("Error getting shifts");
 	}
-	return response.json();
+	const data = await response.json();
+	return data.shifts;
 }
 
 export async function getShiftsByDay(day: string) {
@@ -25,7 +26,9 @@ export async function getShiftsByDay(day: string) {
 	if (!response.ok) {
 		throw new Error("Error getting shifts");
 	}
-	return response.json();
+
+	const data = await response.json();
+	return data.shifts;
 }
 
 // converts date to YYYY-MM-DD

@@ -35,6 +35,10 @@ function AddShift({ stationID }: { stationID: number }) {
 
   const { data: shifts, isLoading } = useShiftsDay(selectedDate);
 
+  if (!isLoading) {
+    console.log(shifts);
+  }
+
   const formSchema = z
     .object({
       startTime: z.string(),
@@ -45,10 +49,14 @@ function AddShift({ stationID }: { stationID: number }) {
 
       if (+startTime >= +endTime) {
         context.addIssue({
-          code: z.ZodIssueCode.custom,
+          code: "custom",
           message: "זמן התחלה חייב להיות לפני זמן סיום",
           path: ["startTime"],
         });
+        return;
+      }
+
+      if (shifts.length === 0) {
         return;
       }
 
@@ -58,7 +66,7 @@ function AddShift({ stationID }: { stationID: number }) {
 
       if (overlap) {
         context.addIssue({
-          code: z.ZodIssueCode.custom,
+          code: "custom",
           message: "לא ניתן להירשם לזמן של משמרת נוכחת",
           path: ["startTime"],
         });
@@ -73,6 +81,7 @@ function AddShift({ stationID }: { stationID: number }) {
     },
   });
 
+  // move to own hook
   const addShiftMutation = useMutation({
     mutationFn: ({
       stationID,

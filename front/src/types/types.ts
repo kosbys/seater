@@ -13,6 +13,7 @@ export type Section = {
 };
 
 export type Shift = {
+	id: number;
 	name: string;
 	date: Date;
 	startTime: number;

@@ -1,11 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteStation } from "@/api/station";
+import { useShiftsDay } from "@/hooks/useShiftsDay";
 import { useAuthStore } from "@/store/auth";
+import { useDateStore } from "@/store/day";
 import { useModalStore } from "@/store/modal";
 import type { Station } from "@/types/types";
 import { AddShift } from "../shift/AddShift";
 import { Button } from "../ui/button";
-import { ShiftTimeline } from "./ShiftTimeline";
 import { StationTypeIcon } from "./StationTypeIcon";
 
 // get shifts selected date
@@ -13,7 +14,10 @@ import { StationTypeIcon } from "./StationTypeIcon";
 function StationBlock({ station }: { station: Station }) {
   const openModal = useModalStore((s) => s.openModal);
   const queryClient = useQueryClient();
+  const selectedDate = useDateStore((s) => s.selectedDate);
   const user = useAuthStore((s) => s.user);
+
+  const { data: shifts, isLoading } = useShiftsDay(selectedDate);
 
   const deleteSectionMutation = useMutation({
     mutationFn: (id: number) => deleteStation(id.toString()),
@@ -37,6 +41,23 @@ function StationBlock({ station }: { station: Station }) {
             <span className="text-lg">{station.name}</span>
             <StationTypeIcon type={station.type} />
             <span className="text-lg">{station.type}</span>
+          </div>
+
+          <div className="flex flex-col gap-1 mt-2 overflow-y-auto">
+            {shifts?.length ? (
+              shifts.map((shift) => (
+                <div
+                  key={shift.id}
+                  className="border rounded-md p-1 text-sm bg-muted flex justify-between"
+                >
+                  <span>{shift.startTime}</span>
+                  <span>-</span>
+                  <span>{shift.endTime}</span>
+                </div>
+              ))
+            ) : (
+              <span className="text-sm text-muted-foreground">אין משמרות</span>
+            )}
           </div>
 
           {user?.role === "admin" && (
