@@ -10,8 +10,6 @@ import { AddShift } from "../shift/AddShift";
 import { Button } from "../ui/button";
 import { StationTypeIcon } from "./StationTypeIcon";
 
-// get shifts selected date
-
 function StationBlock({ station }: { station: Station }) {
   const openModal = useModalStore((s) => s.openModal);
   const [filteredShifts, setFilteredShifts] = useState<Shift[]>([]);
@@ -53,7 +51,6 @@ function StationBlock({ station }: { station: Station }) {
             <span className="text-lg">{station.type}</span>
           </div>
 
-          {/* check if shift belongs to station */}
           <div className="flex flex-col gap-1 mt-2 overflow-y-auto">
             {filteredShifts?.length ? (
               filteredShifts.map((shift) => (

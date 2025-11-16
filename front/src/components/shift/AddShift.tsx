@@ -23,11 +23,6 @@ import {
   SelectValue,
 } from "../ui/select";
 
-// prop that selects the station for you if you are in DayPage, if not set then add a form field to quick-select a station?
-// quick select 9-13 and 11-15
-// check for overlap in shifts and our sent time
-
-// map over every shift in day and check for overlap with our sent range
 function AddShift({ stationID }: { stationID: number }) {
   const closeModal = useModalStore((s) => s.closeModal);
   const queryClient = useQueryClient();
@@ -81,7 +76,7 @@ function AddShift({ stationID }: { stationID: number }) {
     },
   });
 
-  // move to own hook
+  // invalidate query
   const addShiftMutation = useMutation({
     mutationFn: ({
       stationID,
@@ -95,7 +90,9 @@ function AddShift({ stationID }: { stationID: number }) {
       endTime: number;
     }) => createShift(stationID, date, startTime, endTime),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["dayShifts", selectedDate] });
+      queryClient.invalidateQueries({
+        queryKey: ["shifts", "day", selectedDate],
+      });
       form.reset();
       closeModal();
     },

@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { getShiftsByWeek } from "@/api/shift";
 import { useDateNavigate } from "@/hooks/dateNavigate";
+import { useShiftsWeek } from "@/hooks/useShiftsWeek";
 import { getSundayDate, getWeekDates } from "../../utils/date";
 import { Table, TableBody, TableCell, TableRow } from "../ui/table";
 import { WeekButtons } from "./WeekButtons";
@@ -19,10 +20,7 @@ function WeekGrid() {
 
   console.log(sunday.toISOString().split("T")[0]);
 
-  const { data: shifts, isLoading } = useQuery({
-    queryKey: ["weekShifts", sunday],
-    queryFn: () => getShiftsByWeek(sunday.toISOString().split("T")[0]),
-  });
+  const { data: shifts, isLoading } = useShiftsWeek(sunday);
 
   function nextWeek() {
     setSunday(
