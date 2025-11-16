@@ -1,11 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import z from "zod";
-import { createShift, getShiftsByDay } from "@/api/shift";
+import { createShift } from "@/api/shift";
+import { useShiftsDay } from "@/hooks/useShiftsDay";
 import { useDateStore } from "@/store/day";
 import { useModalStore } from "@/store/modal";
-import type { Shift } from "@/types/types";
 import { Button } from "../ui/button";
 import {
   Form,
@@ -33,18 +33,7 @@ function AddShift({ stationID }: { stationID: number }) {
   const queryClient = useQueryClient();
   const selectedDate = useDateStore((s) => s.selectedDate);
 
-  const { data: shifts, isLoading } = useQuery<Shift[]>({
-    queryKey: ["dayShifts", selectedDate],
-    queryFn: () => {
-      if (!selectedDate) throw new Error("no date selected");
-      return getShiftsByDay(selectedDate.toISOString().split("T")[0]);
-    },
-    enabled: !!selectedDate,
-  });
-
-  if (!isLoading) {
-    console.log(shifts);
-  }
+  const { data: shifts, isLoading } = useShiftsDay(selectedDate);
 
   const formSchema = z
     .object({

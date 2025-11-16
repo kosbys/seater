@@ -39,8 +39,6 @@ function StationBlock({ station }: { station: Station }) {
             <span className="text-lg">{station.type}</span>
           </div>
 
-          <span className="flex flex-row gap-1"></span>
-
           {user?.role === "admin" && (
             <Button
               variant="destructive"
