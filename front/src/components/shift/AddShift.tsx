@@ -6,7 +6,6 @@ import { createShift, getShiftsByDay } from "@/api/shift";
 import { useDateStore } from "@/store/day";
 import { useModalStore } from "@/store/modal";
 import type { Shift } from "@/types/types";
-import { checkOverlap } from "@/utils/date";
 import { Button } from "../ui/button";
 import {
   Form,
