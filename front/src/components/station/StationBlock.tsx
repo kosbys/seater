@@ -1,10 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { deleteStation } from "@/api/station";
 import { useShiftsDay } from "@/hooks/useShiftsDay";
 import { useAuthStore } from "@/store/auth";
 import { useDateStore } from "@/store/day";
 import { useModalStore } from "@/store/modal";
-import type { Station } from "@/types/types";
+import type { Shift, Station } from "@/types/types";
 import { AddShift } from "../shift/AddShift";
 import { Button } from "../ui/button";
 import { StationTypeIcon } from "./StationTypeIcon";
@@ -13,6 +14,7 @@ import { StationTypeIcon } from "./StationTypeIcon";
 
 function StationBlock({ station }: { station: Station }) {
   const openModal = useModalStore((s) => s.openModal);
+  const [filteredShifts, setFilteredShifts] = useState<Shift[]>([]);
   const queryClient = useQueryClient();
   const selectedDate = useDateStore((s) => s.selectedDate);
   const user = useAuthStore((s) => s.user);
@@ -25,6 +27,14 @@ function StationBlock({ station }: { station: Station }) {
       queryClient.invalidateQueries({ queryKey: ["sections"] });
     },
   });
+
+  useEffect(() => {
+    if (shifts) {
+      setFilteredShifts(
+        shifts.filter((shift) => shift.stationID === station.id)
+      );
+    }
+  }, [shifts, station.id]);
 
   return (
     <div>
@@ -43,9 +53,10 @@ function StationBlock({ station }: { station: Station }) {
             <span className="text-lg">{station.type}</span>
           </div>
 
+          {/* check if shift belongs to station */}
           <div className="flex flex-col gap-1 mt-2 overflow-y-auto">
-            {shifts?.length ? (
-              shifts.map((shift) => (
+            {filteredShifts?.length ? (
+              filteredShifts.map((shift) => (
                 <div
                   key={shift.id}
                   className="border rounded-md p-1 text-sm bg-muted flex justify-between"

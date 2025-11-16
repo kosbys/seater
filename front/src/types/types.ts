@@ -14,7 +14,9 @@ export type Section = {
 
 export type Shift = {
 	id: number;
-	name: string;
+	username: string;
+	userID: number;
+	stationID: number;
 	date: Date;
 	startTime: number;
 	endTime: number;

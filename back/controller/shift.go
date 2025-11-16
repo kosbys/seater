@@ -89,14 +89,33 @@ func GetShiftsByWeek(c *gin.Context) {
 
 	var shifts []model.Shift
 
-	err = database.DB.Where("date BETWEEN ? AND ?", sundayDate.Format(layout), thursdayDate.Format(layout)).Find(&shifts).Error
+	err = database.DB.
+		Preload("User").
+		Preload("Station").
+		Where("date BETWEEN ? AND ?", sundayDate.Format(layout), thursdayDate.Format(layout)).
+		Find(&shifts).Error
 
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(200, gin.H{"shifts": shifts})
+	var response []model.ShiftResponse
+
+	for _, s := range shifts {
+		response = append(response, model.ShiftResponse{
+			ID:        s.ID,
+			StationID: s.StationID,
+			UserID:    s.UserID,
+			Date:      s.Date,
+			StartTime: s.StartTime,
+			EndTime:   s.EndTime,
+			Username:  s.User.Username,
+			Station:   s.Station.Name,
+		})
+	}
+
+	c.JSON(200, gin.H{"shifts": response})
 }
 
 // check
@@ -112,12 +131,31 @@ func GetShiftsByDay(c *gin.Context) {
 
 	var shifts []model.Shift
 
-	err = database.DB.Where("date = ?", dayDate).Find(&shifts).Error
+	err = database.DB.
+		Preload("User").
+		Preload("Station").
+		Where("date = ?", dayDate).
+		Find(&shifts).Error
 
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(200, gin.H{"shifts": shifts})
+	var response []model.ShiftResponse
+
+	for _, s := range shifts {
+		response = append(response, model.ShiftResponse{
+			ID:        s.ID,
+			StationID: s.StationID,
+			UserID:    s.UserID,
+			Date:      s.Date,
+			StartTime: s.StartTime,
+			EndTime:   s.EndTime,
+			Username:  s.User.Username,
+			Station:   s.Station.Name,
+		})
+	}
+
+	c.JSON(200, gin.H{"shifts": response})
 }

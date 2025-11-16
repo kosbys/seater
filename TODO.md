@@ -1,3 +1,3 @@
 filter by
 
-move day shift query logic from addshift.tsx to its own thing
+visualize shift in stationblock.tsx
