@@ -1,6 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { getShiftsByWeek } from "@/api/shift";
 import { useDateNavigate } from "@/hooks/dateNavigate";
 import { useShiftsWeek } from "@/hooks/useShiftsWeek";
 import { getSundayDate, getWeekDates } from "../../utils/date";
@@ -13,70 +11,81 @@ const WEEK_MILISECONDS = 86400000 * 7;
 // clicking on a day should lead you to its own page where it renders a DayPage with shift stats
 
 function WeekGrid() {
-  const dateNavigate = useDateNavigate();
-  const today = new Date();
-  const offset = today.getDay();
-  const [sunday, setSunday] = useState<Date>(getSundayDate(today, offset));
+	const dateNavigate = useDateNavigate();
+	const today = new Date();
+	const offset = today.getDay();
+	const [sunday, setSunday] = useState<Date>(getSundayDate(today, offset));
 
-  console.log(sunday.toISOString().split("T")[0]);
+	console.log(sunday.toISOString().split("T")[0]);
 
-  const { data: shifts, isLoading } = useShiftsWeek(sunday);
+	const { data: shifts, isLoading } = useShiftsWeek(sunday);
 
-  function nextWeek() {
-    setSunday(
-      (prevSunday) => new Date(prevSunday.getTime() + WEEK_MILISECONDS)
-    );
-  }
+	function nextWeek() {
+		setSunday(
+			(prevSunday) => new Date(prevSunday.getTime() + WEEK_MILISECONDS),
+		);
+	}
 
-  function previousWeek() {
-    setSunday(
-      (prevSunday) => new Date(prevSunday.getTime() - WEEK_MILISECONDS)
-    );
-  }
+	function previousWeek() {
+		setSunday(
+			(prevSunday) => new Date(prevSunday.getTime() - WEEK_MILISECONDS),
+		);
+	}
 
-  // map every date with a shift
-  const weekDates = getWeekDates(sunday);
+	// map every date with a shift
+	const weekDates = getWeekDates(sunday);
 
-  const rowsPerDay = 10;
+	const rowsPerDay = 10;
 
-  console.log(weekDates);
+	console.log(weekDates);
 
-  console.log("sunday", sunday);
+	console.log("sunday", sunday);
 
-  return (
-    <>
-      <WeekButtons nextWeek={nextWeek} previousWeek={previousWeek} />
-      <div className="w-full" dir="rtl">
-        <Table className="w-full text-center border-0 rounded-lg table-fixed">
-          <WeekTableHeader weekDates={weekDates} />
-          <TableBody>
-            {Array.from({ length: rowsPerDay }).map((_, rowIndex) => {
-              const rowKey = `row-${rowIndex}`;
-              return (
-                <TableRow key={rowKey}>
-                  {weekDates.map((day) => {
-                    const cellKey = `${day.date}-${rowIndex}`;
-                    return (
-                      <TableCell
-                        key={cellKey}
-                        onClick={() =>
-                          dateNavigate(day.date.replaceAll("-", ""))
-                        }
-                        data-date={day.date}
-                        className="border px-4 py-2 h-16 align-middle"
-                      >
-                        {/* shift data here */}
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </div>
-    </>
-  );
+	return (
+		<>
+			<WeekButtons nextWeek={nextWeek} previousWeek={previousWeek} />
+			<div className="w-full" dir="rtl">
+				<Table className="w-full text-center border-0 rounded-lg table-fixed">
+					<WeekTableHeader weekDates={weekDates} />
+					<TableBody>
+						{Array.from({ length: rowsPerDay }).map((_, rowIndex) => {
+							const rowKey = `row-${rowIndex}`;
+							return (
+								<TableRow key={rowKey}>
+									{weekDates.map((day) => {
+										const cellKey = `${day.date}-${rowIndex}`;
+
+										const shiftsToday = shifts
+											? shifts.filter(
+													(shift) =>
+														day.date ===
+														new Date(shift.date).toISOString().slice(0, 10),
+												)
+											: [];
+
+										const cellShift = shiftsToday[rowIndex] || null;
+
+										return (
+											<TableCell
+												key={cellKey}
+												onClick={() =>
+													dateNavigate(day.date.replaceAll("-", ""))
+												}
+												data-date={day.date}
+												className="border px-4 py-2 h-16 align-middle"
+											>
+												{cellShift ? <div>{cellShift.username}</div> : null}
+											</TableCell>
+										);
+									})}
+								</TableRow>
+							);
+						})}
+					</TableBody>
+				</Table>
+			</div>
+		</>
+	);
 }
 
 export { WeekGrid };
