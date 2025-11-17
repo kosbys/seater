@@ -3,24 +3,24 @@ import { useAuthStore } from "@/store/auth";
 import { Button } from "./ui/button";
 
 function LogoutButton() {
-  const navigate = useNavigate();
-  const logout = useAuthStore((s) => s.logout);
+	const navigate = useNavigate();
+	const logout = useAuthStore((s) => s.logout);
 
-  const handleClick = async () => {
-    try {
-      await logout();
-      navigate("/login");
-    } catch (error) {
-      console.error(error);
-      alert(error);
-    }
-  };
+	const handleClick = async () => {
+		try {
+			await logout();
+			navigate("/login");
+		} catch (error) {
+			console.error(error);
+			alert(error);
+		}
+	};
 
-  return (
-    <Button onClick={handleClick} type="button">
-      Logout
-    </Button>
-  );
+	return (
+		<Button onClick={handleClick} type="button">
+			Logout
+		</Button>
+	);
 }
 
 export { LogoutButton };
