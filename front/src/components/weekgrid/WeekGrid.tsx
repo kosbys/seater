@@ -37,9 +37,7 @@ function WeekGrid() {
 
 	const rowsPerDay = 10;
 
-	console.log(weekDates);
-
-	console.log("sunday", sunday);
+	console.log(shifts);
 
 	return (
 		<>
@@ -74,7 +72,12 @@ function WeekGrid() {
 												data-date={day.date}
 												className="border px-4 py-2 h-16 align-middle"
 											>
-												{cellShift ? <div>{cellShift.username}</div> : null}
+												{cellShift ? (
+													<div>
+														{cellShift.username} {cellShift.sectionName}
+														{cellShift.stationName}
+													</div>
+												) : null}
 											</TableCell>
 										);
 									})}

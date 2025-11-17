@@ -17,6 +17,8 @@ export type Shift = {
 	username: string;
 	userID: number;
 	stationID: number;
+	sectionName: string;
+	stationName: string;
 	date: Date;
 	startTime: number;
 	endTime: number;

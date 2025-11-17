@@ -23,14 +23,15 @@ type Shift struct {
 }
 
 type ShiftResponse struct {
-	ID        uint      `json:"id"`
-	StationID uint      `json:"stationID"`
-	UserID    uint      `json:"userID"`
-	Date      time.Time `json:"date"`
-	StartTime uint      `json:"startTime"`
-	EndTime   uint      `json:"endTime"`
-	Username  string    `json:"username"`
-	Station   string    `json:"stationName"`
+	ID          uint      `json:"id"`
+	StationID   uint      `json:"stationID"`
+	UserID      uint      `json:"userID"`
+	Date        time.Time `json:"date"`
+	StartTime   uint      `json:"startTime"`
+	EndTime     uint      `json:"endTime"`
+	Username    string    `json:"username"`
+	SectionName string    `json:"sectionName"`
+	Station     string    `json:"stationName"`
 }
 type ShiftCreateRequst struct {
 	Date      string

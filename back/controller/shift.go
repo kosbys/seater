@@ -91,7 +91,7 @@ func GetShiftsByWeek(c *gin.Context) {
 
 	err = database.DB.
 		Preload("User").
-		Preload("Station").
+		Preload("Station.Section").
 		Where("date BETWEEN ? AND ?", sundayDate.Format(layout), thursdayDate.Format(layout)).
 		Find(&shifts).Error
 
@@ -104,14 +104,15 @@ func GetShiftsByWeek(c *gin.Context) {
 
 	for _, s := range shifts {
 		response = append(response, model.ShiftResponse{
-			ID:        s.ID,
-			StationID: s.StationID,
-			UserID:    s.UserID,
-			Date:      s.Date,
-			StartTime: s.StartTime,
-			EndTime:   s.EndTime,
-			Username:  s.User.Username,
-			Station:   s.Station.Name,
+			ID:          s.ID,
+			StationID:   s.StationID,
+			UserID:      s.UserID,
+			Date:        s.Date,
+			StartTime:   s.StartTime,
+			EndTime:     s.EndTime,
+			Username:    s.User.Username,
+			Station:     s.Station.Name,
+			SectionName: s.Station.Section.Name,
 		})
 	}
 
