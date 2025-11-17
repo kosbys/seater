@@ -70,8 +70,9 @@ function WeekGrid() {
 													dateNavigate(day.date.replaceAll("-", ""))
 												}
 												data-date={day.date}
-												className="border px-4 py-2 h-16 align-middle"
+												className="border-2 px-4 py-2 h-16 align-middle"
 											>
+												{/* make this better */}
 												{cellShift ? (
 													<div>
 														{cellShift.username} {cellShift.sectionName}
