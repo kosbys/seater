@@ -81,7 +81,6 @@ function AddShift({
 		},
 	});
 
-	// invalidate query
 	const addShiftMutation = useMutation({
 		mutationFn: ({
 			stationID,
@@ -121,76 +120,101 @@ function AddShift({
 		<Form {...form}>
 			<form
 				onSubmit={form.handleSubmit(onSubmit)}
-				className="space-y-8 border-2 p-6"
+				className="space-y-8 w-fit self-center p-6 flex flex-col gap-1"
 			>
-				<FormField
-					control={form.control}
-					name="startTime"
-					render={({ field }) => (
-						<FormItem className="" dir="rtl">
-							<FormControl>
-								<Select
-									onValueChange={field.onChange}
-									value={field.value}
-									dir="rtl"
-								>
-									<SelectTrigger className="w-36">
-										<SelectValue placeholder="התחלה" />
-									</SelectTrigger>
-									<SelectContent>
-										<SelectGroup>
-											{/* map over hours, use shift.ts helpers */}
-											{hours.map((hour) => (
-												<SelectItem
-													key={hour}
-													value={String(hour)}
-													disabled={checkTakenTime(hour, takenRanges)}
-												>
-													{hour.toString().padStart(2, "0")}:00
-												</SelectItem>
-											))}
-										</SelectGroup>
-									</SelectContent>
-								</Select>
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-				<FormField
-					control={form.control}
-					name="endTime"
-					render={({ field }) => (
-						<FormItem className="" dir="rtl">
-							<FormControl>
-								<Select
-									onValueChange={field.onChange}
-									value={field.value}
-									dir="rtl"
-								>
-									<SelectTrigger className="w-36">
-										<SelectValue placeholder="סוף" />
-									</SelectTrigger>
-									<SelectContent>
-										<SelectGroup>
-											{hours.map((hour) => (
-												<SelectItem
-													key={hour}
-													value={String(hour)}
-													disabled={checkTakenTime(hour, takenRanges)}
-												>
-													{hour.toString().padStart(2, "0")}:00
-												</SelectItem>
-											))}
-										</SelectGroup>
-									</SelectContent>
-								</Select>
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-				<Button type="submit">הוספה</Button>
+				<div className="flex flex-row gap-2">
+					<Button
+						type="button"
+						onClick={() => {
+							form.setValue("startTime", 9);
+							form.setValue("endTime", 13);
+						}}
+					>
+						משמרת בוקר
+					</Button>
+					<Button
+						type="button"
+						onClick={() => {
+							form.setValue("startTime", 11);
+							form.setValue("endTime", 15);
+						}}
+					>
+						משמרת צהריים
+					</Button>
+				</div>
+
+				<div className="flex flex-col gap-2">
+					<FormField
+						control={form.control}
+						name="startTime"
+						render={({ field }) => (
+							<FormItem className="" dir="rtl">
+								<FormControl>
+									<Select
+										onValueChange={field.onChange}
+										value={field.value}
+										dir="rtl"
+									>
+										<SelectTrigger className="w-36">
+											<SelectValue placeholder="התחלה" />
+										</SelectTrigger>
+										<SelectContent>
+											<SelectGroup>
+												{hours.map((hour) => (
+													<SelectItem
+														key={hour}
+														value={String(hour)}
+														disabled={checkTakenTime(hour, takenRanges)}
+													>
+														{hour.toString().padStart(2, "0")}:00
+													</SelectItem>
+												))}
+											</SelectGroup>
+										</SelectContent>
+									</Select>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					<FormField
+						control={form.control}
+						name="endTime"
+						render={({ field }) => (
+							<FormItem className="" dir="rtl">
+								<FormControl>
+									<Select
+										onValueChange={field.onChange}
+										value={field.value}
+										dir="rtl"
+									>
+										<SelectTrigger className="w-36">
+											<SelectValue placeholder="סוף" />
+										</SelectTrigger>
+										<SelectContent>
+											<SelectGroup>
+												{hours.map((hour) => (
+													<SelectItem
+														key={hour}
+														value={String(hour)}
+														disabled={checkTakenTime(hour, takenRanges)}
+													>
+														{hour.toString().padStart(2, "0")}:00
+													</SelectItem>
+												))}
+											</SelectGroup>
+										</SelectContent>
+									</Select>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+				</div>
+
+				<Button type="submit" className="w-fit self-end">
+					הוספה
+				</Button>
 			</form>
 		</Form>
 	);
