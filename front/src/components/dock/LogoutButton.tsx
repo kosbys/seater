@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router";
 import { useAuthStore } from "@/store/auth";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 
 function LogoutButton() {
 	const navigate = useNavigate();

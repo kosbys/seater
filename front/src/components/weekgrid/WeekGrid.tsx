@@ -35,60 +35,56 @@ function WeekGrid() {
 	// map every date with a shift
 	const weekDates = getWeekDates(sunday);
 
-	const rowsPerDay = 10;
+	const rowsPerDay = 20;
 
 	console.log(shifts);
 
 	return (
-		<>
+		<div className="w-full pb-20" dir="rtl">
 			<WeekButtons nextWeek={nextWeek} previousWeek={previousWeek} />
-			<div className="w-full" dir="rtl">
-				<Table className="w-full text-center border-0 rounded-lg table-fixed">
-					<WeekTableHeader weekDates={weekDates} />
-					<TableBody>
-						{Array.from({ length: rowsPerDay }).map((_, rowIndex) => {
-							const rowKey = `row-${rowIndex}`;
-							return (
-								<TableRow key={rowKey}>
-									{weekDates.map((day) => {
-										const cellKey = `${day.date}-${rowIndex}`;
+			<Table className="w-full text-center border-0 rounded-lg table-fixed">
+				<WeekTableHeader weekDates={weekDates} />
+				<TableBody>
+					{Array.from({ length: rowsPerDay }).map((_, rowIndex) => {
+						const rowKey = `row-${rowIndex}`;
+						return (
+							<TableRow key={rowKey}>
+								{weekDates.map((day) => {
+									const cellKey = `${day.date}-${rowIndex}`;
 
-										const shiftsToday = shifts
-											? shifts.filter(
-													(shift) =>
-														day.date ===
-														new Date(shift.date).toISOString().slice(0, 10),
-												)
-											: [];
+									const shiftsToday = shifts
+										? shifts.filter(
+												(shift) =>
+													day.date ===
+													new Date(shift.date).toISOString().slice(0, 10),
+											)
+										: [];
 
-										const cellShift = shiftsToday[rowIndex] || null;
+									const cellShift = shiftsToday[rowIndex] || null;
 
-										return (
-											<TableCell
-												key={cellKey}
-												onClick={() =>
-													dateNavigate(day.date.replaceAll("-", ""))
-												}
-												data-date={day.date}
-												className="border-2 px-4 py-2 h-16 align-middle"
-											>
-												{/* make this better */}
-												{cellShift ? (
-													<div>
-														{cellShift.username} {cellShift.sectionName}
-														{cellShift.stationName}
-													</div>
-												) : null}
-											</TableCell>
-										);
-									})}
-								</TableRow>
-							);
-						})}
-					</TableBody>
-				</Table>
-			</div>
-		</>
+									return (
+										<TableCell
+											key={cellKey}
+											onClick={() => dateNavigate(day.date.replaceAll("-", ""))}
+											data-date={day.date}
+											className="border-2 px-4 py-2 h-16 align-middle"
+										>
+											{/* make this better */}
+											{cellShift ? (
+												<div>
+													{cellShift.username} {cellShift.sectionName}
+													{cellShift.stationName}
+												</div>
+											) : null}
+										</TableCell>
+									);
+								})}
+							</TableRow>
+						);
+					})}
+				</TableBody>
+			</Table>
+		</div>
 	);
 }
 

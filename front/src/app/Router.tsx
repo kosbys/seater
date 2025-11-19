@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router";
+import { Layout } from "./Layout";
 import { AdminPage } from "./pages/AdminPage";
 import { DayPage } from "./pages/DayPage";
 import { Homepage } from "./pages/Homepage";
@@ -10,25 +11,25 @@ import { ProtectedRoute } from "./routes/ProtectedRoute";
 import { PublicRoute } from "./routes/PublicRoute";
 
 function Router() {
-  return (
-    <Routes>
-      <Route element={<PublicRoute />}>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-      </Route>
+	return (
+		<Routes>
+			<Route element={<PublicRoute />}>
+				<Route path="/login" element={<Login />} />
+				<Route path="/register" element={<Register />} />
+			</Route>
 
-      <Route element={<ProtectedRoute />}>
-        <Route path="/" element={<Homepage />} />
-        <Route path="/days/:day" element={<DayPage />} />
-      </Route>
+			<Route element={<ProtectedRoute element={<Layout />} />}>
+				<Route path="/" element={<Homepage />} />
+				<Route path="/days/:day" element={<DayPage />} />
+			</Route>
 
-      <Route element={<AdminRoute />}>
-        <Route path="/admin" element={<AdminPage />} />
-      </Route>
+			<Route element={<AdminRoute element={<Layout />} />}>
+				<Route path="/admin" element={<AdminPage />} />
+			</Route>
 
-      <Route path="*" element={<NotFound />} />
-    </Routes>
-  );
+			<Route path="*" element={<NotFound />} />
+		</Routes>
+	);
 }
 
 export { Router };
