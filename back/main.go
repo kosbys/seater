@@ -1,9 +1,11 @@
 package main
 
 import (
+	"back/config"
 	"back/database"
 	"back/model"
 	"back/routes"
+	"fmt"
 	"log"
 )
 
@@ -18,6 +20,8 @@ func main() {
 		log.Fatal("Failed to migrate database:", err)
 	}
 
-	r.Run()
+	// change when prod
+	r.SetTrustedProxies([]string{})
+	r.Run(fmt.Sprintf("localhost:%s", config.PORT))
 
 }

@@ -1,4 +1,4 @@
-export type StationType = "laptop" | "computer" | "tablet" | "monitor";
+export type StationType = "laptop" | "computer" | "tablet" | "monitor" | "";
 
 export type Station = {
 	id: number;

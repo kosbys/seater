@@ -10,6 +10,7 @@ import (
 var (
 	JWTSecret []byte
 	SECRET    string
+	PORT      string
 )
 
 func init() {
@@ -21,5 +22,6 @@ func init() {
 
 	JWTSecret = []byte(os.Getenv("JWT_SECRET"))
 	SECRET = string(os.Getenv("SECRET"))
+	PORT = string(os.Getenv("PORT"))
 
 }
