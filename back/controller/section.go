@@ -18,7 +18,7 @@ func GetSections(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, sections)
+	c.JSON(200, gin.H{"sections": sections})
 }
 
 func CreateSection(c *gin.Context) {

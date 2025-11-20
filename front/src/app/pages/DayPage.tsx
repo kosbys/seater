@@ -4,6 +4,7 @@ import { ShiftModal } from "@/components/shift/ShiftModal";
 import { useDateStore } from "@/store/day";
 import { urlParamToDate } from "@/utils/date";
 import { NotFound } from "./NotFound";
+import { DayButtons } from "@/components/DayButtons";
 
 // modal state here?
 // query for shifts today
@@ -22,6 +23,10 @@ function DayPage() {
         return <NotFound />;
     }
 
+    const previousDay = () => {};
+
+    const nextDay = () => {};
+
     setSelecteDate(date);
 
     console.log(date);
@@ -30,6 +35,7 @@ function DayPage() {
         <>
             <ShiftModal />
             <div className="flex flex-col flex-2 items-center gap-4 pt-4">
+                <DayButtons />
                 <SectionList />
             </div>
         </>

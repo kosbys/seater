@@ -33,7 +33,7 @@ const formSchema = z.object({
     section: z.string().min(1, {
         message: "בבקשה לבחור סקשן",
     }),
-    type: z.enum(["laptop", "computer", "tablet", "monitor", " "]),
+    type: z.enum(["laptop", "computer", "tablet", "monitor", ""]),
 });
 
 function AddStation() {
@@ -133,7 +133,7 @@ function AddStation() {
                                                 <SelectItem value="tablet">
                                                     טבלט
                                                 </SelectItem>
-                                                <SelectItem value=" ">
+                                                <SelectItem value="">
                                                     ריק
                                                 </SelectItem>
                                             </SelectGroup>
