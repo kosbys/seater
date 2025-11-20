@@ -9,27 +9,31 @@ import { NotFound } from "./NotFound";
 // query for shifts today
 
 function DayPage() {
-  const setSelecteDate = useDateStore((s) => s.setSelectedDate);
-  const { day } = useParams<{ day: string }>();
+    const setSelecteDate = useDateStore((s) => s.setSelectedDate);
+    const { day } = useParams<{ day: string }>();
 
-  if (!day) {
-    return <NotFound />;
-  }
+    if (!day) {
+        return <NotFound />;
+    }
 
-  const date = urlParamToDate(day);
+    const date = urlParamToDate(day);
 
-  setSelecteDate(date);
+    if (date.getDay() > 4) {
+        return <NotFound />;
+    }
 
-  console.log(date);
+    setSelecteDate(date);
 
-  return (
-    <>
-      <ShiftModal />
-      <div className="flex flex-col flex-2 items-center gap-4 pt-4">
-        <SectionList />
-      </div>
-    </>
-  );
+    console.log(date);
+
+    return (
+        <>
+            <ShiftModal />
+            <div className="flex flex-col flex-2 items-center gap-4 pt-4">
+                <SectionList />
+            </div>
+        </>
+    );
 }
 
 export { DayPage };
