@@ -1,10 +1,10 @@
 import { useParams } from "react-router";
+import { DayButtons } from "@/components/DayButtons";
 import { SectionList } from "@/components/section/SectionList";
 import { ShiftModal } from "@/components/shift/ShiftModal";
 import { useDateStore } from "@/store/day";
 import { urlParamToDate } from "@/utils/date";
 import { NotFound } from "./NotFound";
-import { DayButtons } from "@/components/DayButtons";
 
 // modal state here?
 // query for shifts today
@@ -22,10 +22,6 @@ function DayPage() {
     if (date.getDay() > 4) {
         return <NotFound />;
     }
-
-    const previousDay = () => {};
-
-    const nextDay = () => {};
 
     setSelecteDate(date);
 

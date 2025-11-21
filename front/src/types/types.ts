@@ -39,7 +39,7 @@ export const shiftSchema = z.object({
 });
 
 export const shiftsResponseSchema = z.object({
-    shifts: z.array(shiftSchema),
+    shifts: z.array(shiftSchema).nullable(),
 });
 
 // make section schema?
