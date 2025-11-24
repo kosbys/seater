@@ -22,6 +22,8 @@ function DayButtons() {
         prev.setDate(prev.getDate() - difference);
 
         console.log(prev);
+
+        dateNavigate(prev.toISOString().split("T")[0].replaceAll("-", ""));
     };
 
     const nextDay = () => {
@@ -34,6 +36,8 @@ function DayButtons() {
         next.setDate(next.getDate() + difference);
 
         console.log(next);
+
+        dateNavigate(next.toISOString().split("T")[0].replaceAll("-", ""));
     };
 
     return (
