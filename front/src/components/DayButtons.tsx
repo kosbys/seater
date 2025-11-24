@@ -15,25 +15,25 @@ function DayButtons() {
     const previousDay = () => {
         // last thu
         // 3 days ago
-        if (selectedDate.getDay() === 0) {
-            console.log("sunday");
+        const prev = new Date(selectedDate);
 
-            console.log(
-                selectedDate.toISOString().split("T")[0].replaceAll("-", ""),
-            );
-        }
+        const difference = selectedDate.getDay() === 0 ? 3 : 1;
+
+        prev.setDate(prev.getDate() - difference);
+
+        console.log(prev);
     };
 
     const nextDay = () => {
         // next sun
         // 3 days next
-        if (selectedDate.getDay() === 4) {
-            console.log("thursday");
-        }
+        const next = new Date(selectedDate);
 
-        console.log(
-            selectedDate.toISOString().split("T")[0].replaceAll("-", ""),
-        );
+        const difference = selectedDate.getDay() === 4 ? 3 : 1;
+
+        next.setDate(next.getDate() + difference);
+
+        console.log(next);
     };
 
     return (
