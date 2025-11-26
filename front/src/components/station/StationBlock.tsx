@@ -8,6 +8,7 @@ import { useDateStore } from "@/store/day";
 import { useModalStore } from "@/store/modal";
 import type { Shift, Station, StationType } from "@/types/types";
 import { AddShift } from "../shift/AddShift";
+import { ShiftBlock } from "../shift/ShiftBlock";
 import { Button } from "../ui/button";
 import { StationTypeIcon } from "./StationTypeIcon";
 
@@ -67,7 +68,7 @@ function StationBlock({ station }: { station: Station }) {
 				asChild
 				variant="ghost"
 				className={clsx(
-					"group border-2 flex flex-col justify-around p-2 gap-1 hover:opacity-70",
+					"group border-2 flex flex-col justify-around p-2 gap-1 hover:bg-dock dark:hover:opacity-70",
 					{
 						"border-green-300": filteredShifts.length === 0,
 						"border-amber-300": filteredShifts.length > 0,
@@ -88,27 +89,14 @@ function StationBlock({ station }: { station: Station }) {
 				<div className="w-fit h-fit min-h-46 min-w-46 flex flex-col justify-start gap-2">
 					<div className="flex flex-row gap-2">
 						<StationTypeIcon type={station.type} />
-						<span className="text-lg">{station.name}</span>
-						{/* map station types to hebrew */}
 						<span className="text-lg">{typeToHebrew(station.type)}</span>
+						<span className="text-lg">{station.name}</span>
 					</div>
 
 					<div className="flex flex-col gap-2">
 						{filteredShifts?.length
 							? filteredShifts.map((shift) => (
-									<div
-										key={shift.id}
-										className="border rounded-md text-sm bg-muted flex flex-col gap-1 p-1"
-									>
-										<div className="text-center">
-											<span className="text-center">{shift.username}</span>
-										</div>
-										<div>
-											<span className="">{shift.startTime}:00</span>
-											<span>-</span>
-											<span>{shift.endTime}:00</span>
-										</div>
-									</div>
+									<ShiftBlock key={shift.id} shift={shift} />
 								))
 							: null}
 					</div>
