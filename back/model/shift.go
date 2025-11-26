@@ -16,8 +16,8 @@ type Shift struct {
 	StationID uint
 	UserID    uint
 	Date      time.Time
-	StartTime uint
-	EndTime   uint
+	StartTime float32
+	EndTime   float32
 	User      User    `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 	Station   Station `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
@@ -27,8 +27,8 @@ type ShiftResponse struct {
 	StationID   uint      `json:"stationID"`
 	UserID      uint      `json:"userID"`
 	Date        time.Time `json:"date"`
-	StartTime   uint      `json:"startTime"`
-	EndTime     uint      `json:"endTime"`
+	StartTime   float32   `json:"startTime"`
+	EndTime     float32   `json:"endTime"`
 	Username    string    `json:"username"`
 	SectionName string    `json:"sectionName"`
 	Station     string    `json:"stationName"`
@@ -36,6 +36,6 @@ type ShiftResponse struct {
 type ShiftCreateRequst struct {
 	Date      string
 	StationID uint
-	StartTime uint
-	EndTime   uint
+	StartTime float32
+	EndTime   float32
 }

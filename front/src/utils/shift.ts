@@ -18,4 +18,4 @@ function checkTakenTime(hour: string, ranges: number[][]) {
 	return ranges.some(([start, end]) => hourNum >= start && hourNum <= end);
 }
 
-export { checkTakenTime, checkTakenRange };
+export { checkTakenTime, checkTakenRange, timeStringToNumber };

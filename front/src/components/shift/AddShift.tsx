@@ -8,7 +8,11 @@ import { useDateStore } from "@/store/day";
 import { useModalStore } from "@/store/modal";
 import type { Shift } from "@/types/types";
 import { getSelectableHours } from "@/utils/hours";
-import { checkTakenRange, checkTakenTime } from "@/utils/shift";
+import {
+	checkTakenRange,
+	checkTakenTime,
+	timeStringToNumber,
+} from "@/utils/shift";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import {
@@ -113,8 +117,8 @@ function AddShift({
 		addShiftMutation.mutate({
 			stationID,
 			date: selectedDate,
-			startTime: Number(startTime),
-			endTime: Number(endTime),
+			startTime: timeStringToNumber(startTime),
+			endTime: timeStringToNumber(endTime),
 		});
 	}
 
