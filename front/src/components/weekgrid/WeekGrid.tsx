@@ -67,11 +67,8 @@ function WeekGrid() {
 											className={clsx(
 												"border-2 px-4 py-2 h-16 align-middle transition-all duration-150",
 												{
-													// Highlight today (light primary with readable text)
 													"bg-primary/20 text-primary font-semibold ring-2 ring-primary/40 shadow-sm":
 														day.date === today.toISOString().slice(0, 10),
-
-													// Normal cells (surface background + subtle hover)
 													"bg-background hover:bg-muted/50":
 														day.date !== today.toISOString().slice(0, 10),
 												},
@@ -79,9 +76,16 @@ function WeekGrid() {
 										>
 											{/* make this better */}
 											{cellShift ? (
-												<div>
-													{cellShift.username} {cellShift.sectionName}
-													{cellShift.stationName}
+												<div className="flex flex-col gap-1 items-center self-center justify-center">
+													<div className="flex flex-row gap-2">
+														<span>{cellShift.username}</span>
+														<span>{cellShift.sectionName}</span>
+														<span>{cellShift.stationName}</span>
+													</div>
+													<span>
+														{`${cellShift.startTime}:00`} -{" "}
+														{`${cellShift.endTime}:00`}
+													</span>
 												</div>
 											) : null}
 										</TableCell>
