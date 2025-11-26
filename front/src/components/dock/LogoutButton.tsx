@@ -1,3 +1,4 @@
+import { LogOut } from "lucide-react";
 import { useNavigate } from "react-router";
 import { useAuthStore } from "@/store/auth";
 import { Button } from "../ui/button";
@@ -17,8 +18,8 @@ function LogoutButton() {
 	};
 
 	return (
-		<Button onClick={handleClick} type="button">
-			Logout
+		<Button size="lg" variant="ghost" onClick={handleClick} type="button">
+			<LogOut className="size-8" />
 		</Button>
 	);
 }

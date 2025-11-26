@@ -9,6 +9,7 @@
     --radius-lg: var(--radius);
     --radius-xl: calc(var(--radius) + 4px);
     --color-background: var(--background);
+    --color-dock: var(--dock);
     --color-foreground: var(--foreground);
     --color-card: var(--card);
     --color-card-foreground: var(--card-foreground);
@@ -48,6 +49,7 @@ body {
 
 :root {
     --background: hsl(220, 23.076923191547394%, 94.90196108818054%);
+    --dock: hsl(220, 23%, 90%);
     --foreground: hsl(234, 16.022099554538727%, 35.49019694328308%);
     --muted: hsl(223, 15.909090638160706%, 82.74509906768799%);
     --muted-foreground: hsl(233, 12.796208262443542%, 41.372549533843994%);
@@ -76,6 +78,7 @@ body {
 
 .dark {
     --background: hsl(232, 23.4%, 18.43%); /* base */
+    --dock: hsl(232, 20%, 30%);
     --foreground: hsl(227, 68.25%, 87.65%); /* text */
     --muted: hsl(230, 18.8%, 26.08%); /* surface0 */
     --muted-foreground: hsl(228, 39.22%, 80%); /* subtext1 */

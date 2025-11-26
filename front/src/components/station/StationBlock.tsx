@@ -85,8 +85,8 @@ function StationBlock({ station }: { station: Station }) {
 					}
 				}}
 			>
-				<div className="min-h-48 min-w-48 flex flex-col">
-					<div className="flex flex-row gap-2 items-center">
+				<div className="w-fit h-fit min-h-46 min-w-46 flex flex-col justify-start gap-2">
+					<div className="flex flex-row gap-2">
 						<StationTypeIcon type={station.type} />
 						<span className="text-lg">{station.name}</span>
 						{/* map station types to hebrew */}

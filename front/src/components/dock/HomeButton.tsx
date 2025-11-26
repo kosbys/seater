@@ -10,8 +10,8 @@ function HomeButton() {
 	};
 
 	return (
-		<Button size="icon" variant="outline" onClick={handleClick} type="button">
-			<House />
+		<Button size="lg" variant="ghost" onClick={handleClick} type="button">
+			<House className="size-8" />
 		</Button>
 	);
 }

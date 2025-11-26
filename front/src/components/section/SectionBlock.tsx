@@ -35,7 +35,7 @@ function SectionBlock({ section }: { section: Section }) {
 				)}
 			</div>
 
-			<div className="grid grid-cols-2 gap-0.5">
+			<div className="grid grid-cols-2 gap-1">
 				{stations.map((station: Station) => (
 					<StationBlock key={station.id} station={station} />
 				))}
