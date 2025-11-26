@@ -1,13 +1,16 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { createShift } from "@/api/shift";
 import { useDateStore } from "@/store/day";
 import { useModalStore } from "@/store/modal";
 import type { Shift } from "@/types/types";
+import { getSelectableHours } from "@/utils/hours";
 import { checkTakenRange, checkTakenTime } from "@/utils/shift";
 import { Button } from "../ui/button";
+import { Checkbox } from "../ui/checkbox";
 import {
 	Form,
 	FormControl,
@@ -15,6 +18,7 @@ import {
 	FormItem,
 	FormMessage,
 } from "../ui/form";
+import { Label } from "../ui/label";
 import {
 	Select,
 	SelectContent,
@@ -23,8 +27,6 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "../ui/select";
-
-const hours = [9, 10, 11, 12, 13, 14, 15];
 
 function AddShift({
 	stationID,
@@ -36,6 +38,7 @@ function AddShift({
 	const closeModal = useModalStore((s) => s.closeModal);
 	const queryClient = useQueryClient();
 	const selectedDate = useDateStore((s) => s.selectedDate);
+	const [showHalfHours, setShowHalfHours] = useState(false);
 
 	const takenRanges = checkTakenRange(filteredShifts);
 
@@ -102,7 +105,6 @@ function AddShift({
 		},
 	});
 
-	// check overlap
 	async function onSubmit({ startTime, endTime }: z.infer<typeof formSchema>) {
 		console.log(selectedDate);
 
@@ -116,18 +118,20 @@ function AddShift({
 		});
 	}
 
+	const hours = getSelectableHours(showHalfHours, 9, 15);
+
 	return (
 		<Form {...form}>
 			<form
 				onSubmit={form.handleSubmit(onSubmit)}
-				className="space-y-8 w-fit self-center p-6 flex flex-col gap-1"
+				className="space-y-4 w-fit self-center p-6 flex flex-col gap-1"
 			>
 				<div className="flex flex-row gap-2">
 					<Button
 						type="button"
 						onClick={() => {
-							form.setValue("startTime", 9);
-							form.setValue("endTime", 13);
+							form.setValue("startTime", "9");
+							form.setValue("endTime", "13");
 						}}
 					>
 						משמרת בוקר
@@ -135,8 +139,8 @@ function AddShift({
 					<Button
 						type="button"
 						onClick={() => {
-							form.setValue("startTime", 11);
-							form.setValue("endTime", 15);
+							form.setValue("startTime", "11");
+							form.setValue("endTime", "15");
 						}}
 					>
 						משמרת צהריים
@@ -144,6 +148,16 @@ function AddShift({
 				</div>
 
 				<div className="flex flex-col gap-2">
+					<div className="flex items-center gap-3">
+						<Checkbox
+							id="half-hour"
+							defaultChecked={false}
+							checked={showHalfHours}
+							onCheckedChange={(v) => setShowHalfHours(v as boolean)}
+						></Checkbox>
+						<Label>הראה חצאי שעה</Label>
+					</div>
+
 					<FormField
 						control={form.control}
 						name="startTime"
@@ -166,7 +180,7 @@ function AddShift({
 														value={String(hour)}
 														disabled={checkTakenTime(hour, takenRanges)}
 													>
-														{hour.toString().padStart(2, "0")}:00
+														{hour}
 													</SelectItem>
 												))}
 											</SelectGroup>
@@ -199,7 +213,7 @@ function AddShift({
 														value={String(hour)}
 														disabled={checkTakenTime(hour, takenRanges)}
 													>
-														{hour.toString().padStart(2, "0")}:00
+														{hour}
 													</SelectItem>
 												))}
 											</SelectGroup>

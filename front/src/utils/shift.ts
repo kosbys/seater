@@ -7,8 +7,15 @@ function checkTakenRange(shifts: Shift[]) {
 	});
 }
 
-function checkTakenTime(hour: number, ranges: number[][]) {
-	return ranges.some(([start, end]) => hour >= start && hour <= end);
+function timeStringToNumber(time: string) {
+	const [hours, minutes] = time.split(":").map(Number);
+	return hours + minutes / 60;
+}
+
+function checkTakenTime(hour: string, ranges: number[][]) {
+	const hourNum = timeStringToNumber(hour);
+
+	return ranges.some(([start, end]) => hourNum >= start && hourNum <= end);
 }
 
 export { checkTakenTime, checkTakenRange };
