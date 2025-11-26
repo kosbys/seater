@@ -44,8 +44,4 @@ function urlParamToDate(date: string) {
     );
 }
 
-function checkOverlap(a: Range, b: Range) {
-    return a.start < b.end && b.start < a.end;
-}
-
-export { getWeekDates, getSundayDate, urlParamToDate, checkOverlap };
+export { getWeekDates, getSundayDate, urlParamToDate };
