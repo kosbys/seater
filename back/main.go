@@ -23,5 +23,4 @@ func main() {
 	// change when prod
 	r.SetTrustedProxies([]string{})
 	r.Run(fmt.Sprintf("localhost:%s", config.PORT))
-
 }
