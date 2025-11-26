@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import { Navigate } from "react-router";
 import { useAuthStore } from "@/store/auth";
 

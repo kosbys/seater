@@ -6,8 +6,8 @@ import { ThemeToggle } from "../theme/ThemeToggle";
 function Header() {
     return (
         <div
-            className="self-center justify-start items-center flex-row
-          gap-4 w-full h-12 shadow-2xl bg-dock hidden md:flex"
+            className="z-1 self-center justify-start items-center flex-row
+          gap-4 w-full h-12 shadow-lg bg-dock hidden md:flex"
         >
             <AdminButton />
             <LogoutButton />

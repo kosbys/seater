@@ -3,8 +3,6 @@ import { AdminButton } from "./AdminButton";
 import { HomeButton } from "./HomeButton";
 import { LogoutButton } from "./LogoutButton";
 
-// if /days show daybuttons else weekbuttons
-
 function Dock() {
     return (
         <div
