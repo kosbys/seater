@@ -8,6 +8,7 @@ import { Table, TableBody, TableCell, TableRow } from "../ui/table";
 import { WeekButtons } from "./WeekButtons";
 import { WeekTableHeader } from "./WeekTableHeader";
 import { Loading } from "../Loading";
+import { numberToTimeString, timeStringToNumber } from "@/utils/shift";
 
 const WEEK_MILISECONDS = 86400000 * 7;
 const ROWS_PER_DAY = 20;
@@ -113,11 +114,19 @@ function WeekGrid() {
                                                             }
                                                         </span>
                                                     </div>
-                                                    <span>
-                                                        {`${cellShift.startTime}:00`}{" "}
-                                                        -{" "}
-                                                        {`${cellShift.endTime}:00`}
-                                                    </span>
+                                                    <div className="flex flex-row gap-0.5">
+                                                        <span>
+                                                            {numberToTimeString(
+                                                                cellShift.startTime,
+                                                            )}
+                                                        </span>
+                                                        <span>-</span>
+                                                        <span>
+                                                            {numberToTimeString(
+                                                                cellShift.endTime,
+                                                            )}
+                                                        </span>
+                                                    </div>
                                                 </div>
                                             ) : null}
                                         </TableCell>
