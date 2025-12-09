@@ -1,7 +1,11 @@
 import { useParams } from "react-router";
 import { DayButtons } from "@/components/DayButtons";
+import { NextPrevButtons } from "@/components/NextPrevButtons";
 import { SectionList } from "@/components/section/SectionList";
 import { ShiftModal } from "@/components/shift/ShiftModal";
+import { ThemeToggle } from "@/components/theme/ThemeToggle";
+import { useDateNavigate } from "@/hooks/dateNavigate";
+import { useDayNextPrev } from "@/hooks/useDayNextPrev";
 import { useDateStore } from "@/store/day";
 import { urlParamToDate } from "@/utils/date";
 import { NotFound } from "./NotFound";
@@ -11,13 +15,14 @@ import { NotFound } from "./NotFound";
 
 function DayPage() {
 	const setSelecteDate = useDateStore((s) => s.setSelectedDate);
+	const dateNavigate = useDateNavigate();
 	const { day } = useParams<{ day: string }>();
+	const date = urlParamToDate(day);
+	const { previousDay, nextDay } = useDayNextPrev(date, dateNavigate);
 
-	if (!day) {
+	if (!day || !date || Number.isNaN(date.getTime())) {
 		return <NotFound />;
 	}
-
-	const date = urlParamToDate(day);
 
 	if (date.getDay() > 4) {
 		return <NotFound />;
@@ -39,7 +44,8 @@ function DayPage() {
 						day: "numeric",
 					})}
 				</h2>
-				<DayButtons />
+				<ThemeToggle />
+				<NextPrevButtons next={nextDay} previous={previousDay} />
 				<SectionList />
 			</div>
 		</>
