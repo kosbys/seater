@@ -21,5 +21,5 @@ func main() {
 
 	// change when prod
 	r.SetTrustedProxies([]string{})
-	r.Run("0.0.0.0:" + config.PORT)
+	r.Run(":" + config.PORT)
 }
