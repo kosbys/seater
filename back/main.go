@@ -5,7 +5,6 @@ import (
 	"back/database"
 	"back/model"
 	"back/routes"
-	"fmt"
 	"log"
 )
 
@@ -22,5 +21,5 @@ func main() {
 
 	// change when prod
 	r.SetTrustedProxies([]string{})
-	r.Run(fmt.Sprintf("localhost:%s", config.PORT))
+	r.Run("0.0.0.0:" + config.PORT)
 }
