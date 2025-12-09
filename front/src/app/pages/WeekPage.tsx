@@ -1,7 +1,7 @@
 import { WeekGrid } from "@/components/weekgrid/WeekGrid";
 
-function Homepage() {
+function WeekPage() {
 	return <WeekGrid />;
 }
 
-export { Homepage };
+export { WeekPage };

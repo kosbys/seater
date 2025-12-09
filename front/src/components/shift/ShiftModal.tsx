@@ -16,7 +16,7 @@ function ShiftModal() {
 		<Dialog open={isOpen} onOpenChange={closeModal}>
 			<DialogContent className="transition-none w-fit">
 				<DialogHeader>
-					<DialogTitle>Modal</DialogTitle>
+					<DialogTitle>הרשמה למשמרת</DialogTitle>
 					<DialogDescription></DialogDescription>
 					{element}
 				</DialogHeader>

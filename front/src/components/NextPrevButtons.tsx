@@ -11,10 +11,10 @@ function NextPrevButtons({ previous, next }: ButtonProps) {
 	return (
 		<>
 			<Button type="button" onClick={previous}>
-				Previous
+				קודם
 			</Button>
 			<Button type="button" onClick={next}>
-				Next
+				הבא
 			</Button>
 		</>
 	);

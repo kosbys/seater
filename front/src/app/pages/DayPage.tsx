@@ -1,5 +1,4 @@
 import { useParams } from "react-router";
-import { DayButtons } from "@/components/DayButtons";
 import { NextPrevButtons } from "@/components/NextPrevButtons";
 import { SectionList } from "@/components/section/SectionList";
 import { ShiftModal } from "@/components/shift/ShiftModal";
