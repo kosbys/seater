@@ -10,9 +10,9 @@ const queryClient = new QueryClient();
 function App() {
 	const refresh = useAuthStore((s) => s.refresh);
 
-	useEffect(() => {
-		refresh().catch(() => {});
-	}, [refresh]);
+	// useEffect(() => {
+	// 	refresh().catch(() => {});
+	// }, [refresh]);
 
 	return (
 		<QueryClientProvider client={queryClient}>
