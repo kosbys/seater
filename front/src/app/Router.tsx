@@ -11,9 +11,10 @@ import { ProtectedRoute } from "./routes/ProtectedRoute";
 import { PublicRoute } from "./routes/PublicRoute";
 
 function RedirectToday() {
-	const today = new Date().toISOString().split("T")[0].replaceAll("-", "");
-	// e.g. "2025-01-21"
-	return <Navigate to={`/days/${today}`} replace />;
+	const today = new Date();
+
+	const todayFormatted = today.toISOString().split("T")[0].replaceAll("-", "");
+	return <Navigate to={`/days/${todayFormatted}`} replace />;
 }
 
 function Router() {

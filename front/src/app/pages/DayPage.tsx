@@ -1,4 +1,4 @@
-import { useParams } from "react-router";
+import { Navigate, useParams } from "react-router";
 import { NextPrevButtons } from "@/components/NextPrevButtons";
 import { SectionList } from "@/components/section/SectionList";
 import { ShiftModal } from "@/components/shift/ShiftModal";
@@ -6,11 +6,13 @@ import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { useDateNavigate } from "@/hooks/dateNavigate";
 import { useDayNextPrev } from "@/hooks/useDayNextPrev";
 import { useDateStore } from "@/store/day";
-import { urlParamToDate } from "@/utils/date";
+import { getSundayDate, urlParamToDate } from "@/utils/date";
 import { NotFound } from "./NotFound";
 
 // modal state here?
 // query for shifts today
+//
+const allowedDays = [0, 1, 2, 3, 4];
 
 function DayPage() {
 	const setSelecteDate = useDateStore((s) => s.setSelectedDate);
@@ -21,6 +23,14 @@ function DayPage() {
 
 	if (!day || !date || Number.isNaN(date.getTime())) {
 		return <NotFound />;
+	}
+
+	const weekday = date.getDay();
+
+	if (!allowedDays.includes(weekday)) {
+		const sunday = getSundayDate(date, date.getDay());
+		const formatted = sunday.toISOString().split("T")[0];
+		return <Navigate to={`/days/${formatted}`} replace />;
 	}
 
 	if (date.getDay() > 4) {
