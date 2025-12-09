@@ -19,7 +19,7 @@ function StationBlock({ station }: { station: Station }) {
 	const selectedDate = useDateStore((s) => s.selectedDate);
 	const user = useAuthStore((s) => s.user);
 
-	const { data: shifts, isLoading } = useShiftsDay(selectedDate);
+	const { data: shifts } = useShiftsDay(selectedDate);
 
 	const deleteSectionMutation = useMutation({
 		mutationFn: (id: number) => deleteStation(id.toString()),
