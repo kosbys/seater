@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 // import { useEffect } from "react";
-import { BrowserRouter } from "react-router";
+import { HashRouter } from "react-router";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 // import { useAuthStore } from "@/store/auth";
 import { Router } from "./Router";
@@ -17,9 +17,9 @@ function App() {
 	return (
 		<QueryClientProvider client={queryClient}>
 			<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-				<BrowserRouter>
+				<HashRouter>
 					<Router />
-				</BrowserRouter>
+				</HashRouter>
 			</ThemeProvider>
 		</QueryClientProvider>
 	);
