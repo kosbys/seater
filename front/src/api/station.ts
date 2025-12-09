@@ -1,7 +1,7 @@
 import type { StationType } from "@/types/types";
 
 export async function getStations() {
-	const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/stations`, {
+	const response = await fetch(`https://seater.onrender.com/stations`, {
 		method: "GET",
 		credentials: "include",
 	});
@@ -17,15 +17,12 @@ export async function createStation(
 	type: StationType,
 	name: string,
 ) {
-	const response = await fetch(
-		`${import.meta.env.VITE_SERVER_URL}/admin/station`,
-		{
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			credentials: "include",
-			body: JSON.stringify({ sectionID, type, name }),
-		},
-	);
+	const response = await fetch(`https://seater.onrender.com/admin/station`, {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		credentials: "include",
+		body: JSON.stringify({ sectionID, type, name }),
+	});
 
 	if (!response.ok) {
 		throw new Error("Error creating station");
@@ -35,7 +32,7 @@ export async function createStation(
 
 export async function deleteStation(stationID: string) {
 	const response = await fetch(
-		`${import.meta.env.VITE_SERVER_URL}/admin/station/${stationID}`,
+		`https://seater.onrender.com/admin/station/${stationID}`,
 		{
 			method: "DELETE",
 			credentials: "include",

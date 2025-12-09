@@ -1,5 +1,5 @@
 export async function requestLogin(username: string, password: string) {
-	const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/login`, {
+	const response = await fetch(`https://seater.onrender.com/login`, {
 		method: "POST",
 		headers: { "Content-Type": "application/json" },
 		credentials: "include",
@@ -13,7 +13,7 @@ export async function requestLogin(username: string, password: string) {
 }
 
 export async function requestRegister(username: string, password: string) {
-	const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/register`, {
+	const response = await fetch(`https://seater.onrender.com/register`, {
 		method: "POST",
 		headers: { "Content-Type": "application/json" },
 		credentials: "include",
@@ -29,7 +29,7 @@ export async function requestRegister(username: string, password: string) {
 }
 
 export async function requestRefresh() {
-	const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/refresh`, {
+	const response = await fetch(`https://seater.onrender.com/refresh`, {
 		method: "GET",
 		credentials: "include",
 	});
@@ -41,7 +41,7 @@ export async function requestRefresh() {
 }
 
 export async function requestLogout() {
-	const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/logout`, {
+	const response = await fetch(`https://seater.onrender.com/logout`, {
 		method: "POST",
 		credentials: "include",
 	});
