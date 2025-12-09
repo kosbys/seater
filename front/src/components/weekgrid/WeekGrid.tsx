@@ -5,9 +5,13 @@ import { useShiftsWeek } from "@/hooks/useShiftsWeek";
 import type { Shift } from "@/types/types";
 import { getSundayDate, getWeekDates } from "../../utils/date";
 import { Loading } from "../Loading";
+<<<<<<< HEAD
 import { NextPrevButtons } from "../NextPrevButtons";
 import { Table, TableBody, TableCell, TableRow } from "../ui/table";
 import { WeekTableHeader } from "./WeekTableHeader";
+=======
+import { numberToTimeString, timeStringToNumber } from "@/utils/shift";
+>>>>>>> 2e088bbac77e871fce82f3580dff39445ec2ba08
 
 const WEEK_MILISECONDS = 86400000 * 7;
 const ROWS_PER_DAY = 20;
@@ -67,6 +71,7 @@ function WeekGrid() {
 
 									const cellShift = shiftsToday[rowIndex] || null;
 
+<<<<<<< HEAD
 									return (
 										<TableCell
 											key={cellKey}
@@ -106,6 +111,79 @@ function WeekGrid() {
 			</Table>
 		</div>
 	);
+=======
+                                    return (
+                                        <TableCell
+                                            key={cellKey}
+                                            onClick={() =>
+                                                dateNavigate(
+                                                    day.date.replaceAll(
+                                                        "-",
+                                                        "",
+                                                    ),
+                                                )
+                                            }
+                                            data-date={day.date}
+                                            className={clsx(
+                                                "border-2 px-4 py-2 h-16 align-middle transition-all duration-150",
+                                                {
+                                                    "bg-primary/20 text-primary font-semibold ring-2 ring-primary/40 shadow-sm":
+                                                        day.date ===
+                                                        today
+                                                            .toISOString()
+                                                            .slice(0, 10),
+                                                    "bg-background hover:bg-muted/50":
+                                                        day.date !==
+                                                        today
+                                                            .toISOString()
+                                                            .slice(0, 10),
+                                                },
+                                            )}
+                                        >
+                                            {/* make this better */}
+                                            {cellShift ? (
+                                                <div className="flex flex-col gap-1 items-center self-center justify-center">
+                                                    <div className="flex flex-row gap-2">
+                                                        <span>
+                                                            {cellShift.username}
+                                                        </span>
+                                                        <span>
+                                                            {
+                                                                cellShift.sectionName
+                                                            }
+                                                        </span>
+                                                        <span>
+                                                            {
+                                                                cellShift.stationName
+                                                            }
+                                                        </span>
+                                                    </div>
+                                                    <div className="flex flex-row gap-0.5">
+                                                        <span>
+                                                            {numberToTimeString(
+                                                                cellShift.startTime,
+                                                            )}
+                                                        </span>
+                                                        <span>-</span>
+                                                        <span>
+                                                            {numberToTimeString(
+                                                                cellShift.endTime,
+                                                            )}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            ) : null}
+                                        </TableCell>
+                                    );
+                                })}
+                            </TableRow>
+                        );
+                    })}
+                </TableBody>
+            </Table>
+        </div>
+    );
+>>>>>>> 2e088bbac77e871fce82f3580dff39445ec2ba08
 }
 
 export { WeekGrid };
