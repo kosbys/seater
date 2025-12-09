@@ -12,9 +12,9 @@ import (
 func SetupRouter() *gin.Engine {
 	r := gin.Default()
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"https://kosbys.github.io/seater/"},
+		AllowOrigins:     []string{"https://kosbys.github.io"},
 		AllowMethods:     []string{"POST", "GET", "PUT", "PATCH", "DELETE", "OPTIONS"},
-		AllowHeaders:     []string{"Origin", "Content-Type"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
 		// AllowOriginFunc: func(origin string) bool {
